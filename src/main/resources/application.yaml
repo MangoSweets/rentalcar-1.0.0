@@ -1,0 +1,51 @@
+server:
+  port: 8081
+
+spring:
+  #email
+  mail:
+    default-encoding: utf-8
+    host: smtp.qq.com
+    password: dgxrhpsmxsphbbhj
+    port: 25
+    protocol: smtp
+    username: 825543676@qq.com
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/carrentalsystem?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #连接池的配置信息
+    tomcat:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      validation-query: SELECT 1
+    dbcp2:
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+#  redis:
+#    hostName: 123.206.19.217
+#    port: 6379
+#    password:
+#    timeout: 5000
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.person.rentalcar.model
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql
+  support-methods-arguments: true
+  params: count=countsql

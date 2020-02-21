@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.person.rentalcar.mapper.PermissionMapper">
+
+    <sql id="tablename">
+        Permission
+    </sql>
+
+    <sql id="personCondition">
+        where permissionId=#{permissionId}
+    </sql>
+
+    <sql id="updateCondition">
+        <set>
+            <if test="permissionName!=null">
+                permissionName=#{permissionName},
+            </if>
+            <if test="permissionUrl!=null">
+                permissionUrl=#{permissionUrl},
+            </if>
+            <if test="permissionCreatTime!=null">
+                permissionCreatTime=#{permissionCreatTime},
+            </if>
+            <if test="permissionCreater!=null">
+                permissionCreater=#{permissionCreater},
+            </if>
+            <if test="permissionUpdateTime!=null">
+                permissionUpdateTime=#{permissionUpdateTime},
+            </if>
+            <if test="permissionUpdater!=null">
+                permissionUpdater=#{permissionUpdater}
+            </if>
+        </set>
+    </sql>
+
+    <insert id="addPermission" parameterType="permission">
+        insert into Permission(permissionName,permissionUrl,permissionCreatTime,permissionCreater,permissionUpdateTime,permissionUpdater,permissionStatus)
+        values (#{permissionName},#{permissionUrl},#{permissionCreatTime},#{permissionCreater},#{permissionUpdateTime},#{permissionUpdater},#{permissionStatus})
+    </insert>
+
+    <update id="updatePermission" parameterType="permission">
+        update
+        <include refid="tablename"/>
+        <include refid="updateCondition"/>
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="deletePermission" parameterType="integer">
+        update
+        <include refid="tablename"/>
+        set permissionStatus=false
+        <include refid="personCondition"/>
+    </update>
+
+    <select id="selectAllPermission" resultType="permission">
+        select * from
+        <include refid="tablename"/>
+    </select>
+
+    <select id="selectPermissionByPermissionId" parameterType="integer" resultType="permission">
+        select * from
+        <include refid="tablename"/>
+        <include refid="personCondition"/>
+    </select>
+
+</mapper>

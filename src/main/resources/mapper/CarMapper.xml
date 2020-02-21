@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.person.rentalcar.mapper.CarMapper">
+    <insert id="addCar" parameterType="car">
+        insert into Car(seriesId,carType,plateNumber,userEvaluation,productStartTime,productEndTime,carCreateTime,carCreater,carUpdateTime,carUpdater,carStatus)
+        values (#{seriesId} ,#{carType},#{plateNumber} ,#{userEvaluation} ,#{productStartTime}  ,#{productEndTime},#{carCreateTime} ,#{carCreater} ,#{carUpdateTime} ,#{carUpdater}  ,#{carStatus}  )
+    </insert>
+
+    <sql id="CarUpdateConditon">
+
+        <set>
+            <if test="seriesId!=null">
+                seriesId=#{seriesId},
+            </if>
+            <if test="carType != null">
+                carType=#{carType} ,
+            </if>
+            <if test="plateNumber != null">
+                plateNumber=#{plateNumber} ,
+            </if>
+            <if test="userEvaluation != null">
+                userEvaluation=#{userEvaluation} ,
+            </if>
+            <if test="carCreateTime != null">
+                carCreateTime=#{carCreateTime} ,
+            </if>
+            <if test="carCreater != null">
+                carCreater=#{carCreater} ,
+            </if>
+            <if test="carUpdateTime != null">
+                carUpdateTime=#{carUpdateTime} ,
+            </if>
+            <if test="carUpdater != null">
+                carUpdater=#{carUpdater} ,
+            </if>
+            <if test="productStartTime != null">
+                productStartTime=#{productStartTime} ,
+            </if>
+            <if test="productEndTime != null">
+                productEndTime =#{productEndTime} ,
+            </if>
+            <if test="carStatus != null">
+                carStatus =#{carStatus}
+            </if>
+        </set>
+    </sql>
+
+    <sql id="personCondition">
+        where carId=#{carId}
+    </sql>
+
+    <update id="updateCar" parameterType="car">
+        update Car
+        <include refid="CarUpdateConditon"/>
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="deleteCar" parameterType="integer">
+        update Car set carStatus=false
+        <include refid="personCondition"/>
+    </update>
+
+    <select id="selectAllCar" resultType="car">
+        select * from Car
+    </select>
+
+    <select id="selectCarByCarId" parameterType="integer" resultType="car">
+        select * from Car
+        <include refid="personCondition"/>
+    </select>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.person.rentalcar.mapper.RoleMapper">
+
+    <sql id="tablename">
+        Role
+    </sql>
+
+    <sql id="personCondition">
+        where roleId=#{roleId}
+    </sql>
+
+    <sql id="updateCondition">
+        <set>
+            <if test="roleName!=null">
+                roleName=#{roleName},
+            </if>
+            <if test="roleUrl!=null">
+                roleUrl=#{roleUrl},
+            </if>
+            <if test="permissions!=null">
+                permissions=#{permissions},
+            </if>
+            <if test="roleCreateTime!=null">
+                roleCreateTime=#{roleCreateTime},
+            </if>
+            <if test="roleCreater!=null">
+                roleCreater=#{roleCreater},
+            </if>
+            <if test="roleUpdateTime!=null">
+                roleUpdateTime=#{roleUpdateTime},
+            </if>
+            <if test="roleUpdater!=null">
+                roleUpdater=#{roleUpdater},
+            </if>
+        </set>
+    </sql>
+
+    <insert id="addRole" parameterType="role">
+        insert into Role(roleName,roleUrl,permissions,roleCreateTime,roleCreater,roleUpdateTime,roleUpdater,roleStatus)
+        values (#{roleName},#{roleUrl},#{permissions},#{roleCreateTime},#{roleCreater},#{roleUpdateTime},#{roleUpdater},#{roleStatus})
+    </insert>
+
+    <update id="updateRole" parameterType="role">
+        update
+        <include refid="tablename"/>
+        <include refid="updateCondition"/>
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="deleteRole" parameterType="integer">
+        update
+        <include refid="tablename"/>
+        set roleStatus=false
+        <include refid="personCondition"/>
+    </update>
+
+    <select id="selectAllRole" resultType="role">
+        select * from
+        <include refid="tablename"/>
+    </select>
+
+    <select id="selectRole" parameterType="integer" resultType="role">
+        select * from
+        <include refid="tablename"/>
+        <include refid="personCondition"/>
+    </select>
+</mapper>

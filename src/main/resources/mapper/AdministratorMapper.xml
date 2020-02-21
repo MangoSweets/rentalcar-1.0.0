@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.person.rentalcar.mapper.AdministratorMapper">
+
+    <insert id="addAdministrator" parameterType="administrator">
+        insert into Administrator(admin,password,adminCreater,adminCreateTime,adminUpdater,adminUpdateTime,adminStatus)
+        values (#{admin},#{password},#{adminCreater},#{adminCreateTime},#{adminUpdater},#{adminUpdateTime},#{adminStatus})
+    </insert>
+
+    <update id="updateAdministrator" parameterType="administrator">
+        update Administrator set password=#{password} where administratorId=#{administratorId}
+    </update>
+
+    <update id="deleteAdministrator" parameterType="integer">
+        update Administrator set adminStatus=false where administratorId=#{administratorId}
+    </update>
+
+    <select id="isExistAdminByUsername" parameterType="string" resultType="integer">
+        select count(1) from Administrator where admin=#{admin}
+    </select>
+
+    <select id="selectAdministratorByadmin" parameterType="string" resultType="administrator">
+        select * from Administrator where admin=#{admin}
+    </select>
+
+    <select id="selectAllAdministrator" resultType="administrator">
+        select * from Administrator
+    </select>
+</mapper>

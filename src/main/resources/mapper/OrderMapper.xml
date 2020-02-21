@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.person.rentalcar.mapper.OrderMapper">
+
+    <sql id="tablename">
+            `Order`
+    </sql>
+
+    <sql id="updateConditions">
+        <set>
+            <if test="userId!=null">
+                userId=#{userId},
+            </if>
+            <if test="carId!=null">
+                carId=#{carId},
+            </if>
+            <if test="startTime!=null">
+                startTime=#{startTime},
+            </if>
+            <if test="endTime!=null">
+                endTime=#{endTime},
+            </if>
+        </set>
+    </sql>
+
+    <sql id="personCondition">
+        where orderId=#{orderId}
+    </sql>
+
+    <insert id="addOrder" parameterType="order">
+        insert into `Order`(userId,carId,startTime,endTime,`status`)
+        values (#{userId} ,#{carId} ,#{startTime} ,#{endTime} ,#{status} )
+    </insert>
+
+    <update id="updateOrder" parameterType="order">
+        update
+        <include refid="tablename"/>
+        <include refid="updateConditions"/>
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="deleteOrder" parameterType="integer">
+        update
+        <include refid="tablename"/>
+        set status=false
+        <include refid="personCondition"/>
+    </update>
+
+    <select id="selectOrderByOrderId" parameterType="integer" resultType="order">
+        select * from
+        <include refid="tablename"/>
+        <include refid="personCondition"/>
+    </select>
+
+    <select id="selectAllOrder" resultType="order">
+        select * from
+        <include refid="tablename"/>
+    </select>
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.person.rentalcar.mapper.UserMapper">
+
+    <insert id="addUser" parameterType="user">
+        insert into user(userId,username,`password`,salt,`name`,sex,telephone,IDCard,bankCard,drivingLicense,email,address,roles,drivingBehalfID,userCreateTime,userCreater,userUpdateTime,userUpdater,userStatus)
+          values (#{userId},#{username},#{password},#{salt},#{name},#{sex},#{telephone},#{IDCard},#{bankCard},#{drivingLicense},#{email},#{address},#{roles},#{drivingBehalfID},#{userCreateTime},#{userCreater},#{userUpdateTime},#{userUpdater},#{userStatus})
+    </insert>
+
+    <sql id="userUpdate">
+        <set>
+            <if test="password != null">
+                password=#{password} ,
+            </if>
+            <if test="salt != null">
+                salt=#{salt} ,
+            </if>
+            <if test="bankCard != null">
+                bankCard=#{bankCard} ,
+            </if>
+            <if test="telephone != null">
+                telephone=#{telephone} ,
+            </if>
+            <if test="drivingLicense != null">
+                drivingLicense=#{drivingLicense} ,
+            </if>
+            <if test="email != null">
+                email=#{email} ,
+            </if>
+            <if test="address != null">
+                address=#{address} ,
+            </if>
+            <if test="drivingBehalfID != null">
+                drivingBehalfID=#{drivingBehalfID} ,
+            </if>
+            <if test="userUpdateTime != null">
+                userUpdateTime=#{userUpdateTime} ,
+            </if>
+            <if test="userUpdater != null">
+                userUpdater=#{userUpdater} ,
+            </if>
+        </set>
+    </sql>
+
+    <sql id="personCondition">
+         where userId=#{userId}
+    </sql>
+
+    <update id="updateUser" parameterType="user">
+        update User
+        <include refid="userUpdate"/>
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="updateRoleForUser" parameterType="user">
+        update User set roles=#{roles}
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="updateUserStatus">
+        update User set userStatus=#{status,jdbcType=BOOLEAN}
+        <include refid="personCondition"/>
+    </update>
+
+    <select id="selectUserByUsername" parameterType="string" resultType="user">
+        select * from User where username=#{username}
+    </select>
+
+    <select id="isExistUserByUsername" parameterType="string" resultType="boolean">
+        select COUNT(1) from User where username=#{username}
+    </select>
+
+    <select id="getRoles" parameterType="user" resultType="string">
+        select roles from User
+        <include refid="personCondition"/>
+    </select>
+
+    <select id="selectAllUser" parameterType="com.person.rentalcar.vo.query.UserQueryVO" resultType="user">
+        select * from User
+        <if test="query != null and query != ''">
+            where username like concat('%',#{query,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
+
+    <delete id="deleteUser" parameterType="integer">
+        delete from user
+        <include refid="personCondition"></include>
+    </delete>
+
+</mapper>

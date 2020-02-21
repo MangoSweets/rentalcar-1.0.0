@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.person.rentalcar.mapper.DrivingBehalfMapper">
+
+    <insert id="addDrivingBehalf" parameterType="drivingbehalf">
+        insert into DrivingBehalf(userId,drivingName,drivingSex,drivingTelephone,creditscore,drivingComment,behalfLicense,drivingCreater,drivingCreateTime,drivingUpdater,drivingUpdateTime,drivingStatus)
+        values (#{userId} ,#{drivingName} ,#{drivingSex} ,#{drivingTelephone} ,#{creditscore} ,#{drivingComment} ,#{behalfLicense} ,#{drivingCreater} ,#{drivingCreateTime},#{drivingUpdater} ,#{drivingUpdateTime} ,#{drivingStatus} )
+    </insert>
+
+    <sql id="drivingBehalfUpdate">
+        <set>
+        <if test="userId!=null">
+             userId=#{userId},
+        </if>
+        <if test="drivingTelephone!=null">
+             drivingTelephone=#{drivingTelephone} ,
+        </if>
+        <if test="behalfLicense!=null">
+             behalfLicense=#{behalfLicense} ,
+        </if>
+        <if test="drivingUpdater!=null">
+             drivingUpdater=#{drivingUpdater} ,
+        </if>
+        <if test="drivingUpdateTime!=null">
+             drivingUpdateTime=#{drivingUpdateTime}
+        </if>
+        </set>
+    </sql>
+
+    <sql id="tablename">
+        DrivingBehalf
+    </sql>
+
+    <sql id="personConfition">
+        where drivingBehalfId=#{drivingBehalfId}
+    </sql>
+
+    <update id="updateDrivingBehalf" parameterType="drivingbehalf">
+        update
+        <include refid="tablename"/>
+        <include refid="drivingBehalfUpdate"/>
+        <include refid="personConfition"/>
+    </update>
+
+    <select id="selectAllDrivingBehalf" resultType="drivingbehalf">
+        select * from
+        <include refid="tablename"/>
+    </select>
+
+    <update id="deleteDrivingBehalf" parameterType="integer">
+        update
+        <include refid="tablename"/>
+        set drivingStatus=false
+        <include refid="personConfition"/>
+    </update>
+
+    <select id="selectDrivingBehalfByDrivingBehalfId" parameterType="integer" resultType="drivingbehalf">
+        select * from
+        <include refid="tablename"/>
+        <include refid="personConfition"/>
+    </select>
+</mapper>
