@@ -9,6 +9,12 @@ import lombok.Data;
  */
 @Data
 public class PageRequest {
+
+    /**
+     * 搜索框查询内容
+     */
+    private String query;
+
     /**
      * 页码
      */
@@ -18,4 +24,5 @@ public class PageRequest {
      * 页面记录数
      */
     private int pageSize;
+
 }

@@ -9,7 +9,7 @@ import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
-import com.person.rentalcar.vo.query.UserQueryVO;
+import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -65,20 +65,20 @@ public class UserService {
         return userMapper.selectUserByUsername(username);
     }
 
-    public List<User> selectAllUser(UserQueryVO vo) {
-        return userMapper.selectAllUser(vo);
-    }
+//    public List<User> selectAllUser(UserQueryVO vo) {
+//        return userMapper.selectAllUser(vo);
+//    }
 
     public boolean deleteUser(Integer userId) {
         return userMapper.deleteUser(userId);
     }
 
-    public PageResult getPageInfo(UserQueryVO vo) {
+    public PageResult getPageInfo(PageRequest vo) {
         int pageNum = vo.getPageNum();
         int pageSize = vo.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
         List<User> userList = userMapper.selectAllUser(vo);
-        return PageUtils.getPageResult(new PageInfo<User>(userList));
+        return PageUtils.getPageResult(new PageInfo<>(userList));
     }
 
     public boolean updateUser(User user){

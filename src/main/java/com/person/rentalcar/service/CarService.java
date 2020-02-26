@@ -8,6 +8,8 @@ import com.person.rentalcar.mapper.CarMapper;
 import com.person.rentalcar.mapper.SeriesMapper;
 import com.person.rentalcar.model.Car;
 import com.person.rentalcar.model.Series;
+import com.person.rentalcar.response.ApiResponse;
+import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.CarVO;
@@ -52,7 +54,27 @@ public class CarService {
         PageInfo<CarVO> carVOPageInfo = new PageInfo<>(carVOS);
         carVOPageInfo.setPageNum(request.getPageNum());
         carVOPageInfo.setPageSize(request.getPageSize());
-
+        carVOPageInfo.setTotal(mapper.getTotalSize());
+        carVOPageInfo.setList(carVOS);
         return PageUtils.getPageResult(carVOPageInfo);
+    }
+
+    public ApiResponse updateStatus(boolean status, int carId) {
+        boolean b = mapper.updateStatus(status, carId);
+        if (b) {
+            return RespGenerator.successful().setMessage("更改状态成功");
+        } else {
+            return RespGenerator.fail("400").setMessage("参数格式错误");
+        }
+    }
+
+    public ApiResponse addCar(Car car) {
+
+        boolean b = mapper.addCar(car);
+        if (b) {
+            return RespGenerator.successful().setMessage("添加车辆成功");
+        } else {
+            return RespGenerator.fail("400").setMessage("添加车辆失败，请检查参数");
+        }
     }
 }

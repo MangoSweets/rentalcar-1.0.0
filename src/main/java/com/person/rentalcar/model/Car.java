@@ -73,5 +73,6 @@ public class Car {
     /**
      * 汽车状态
      */
-    private boolean carStatus ;
+    private boolean carStatus;
+
 }

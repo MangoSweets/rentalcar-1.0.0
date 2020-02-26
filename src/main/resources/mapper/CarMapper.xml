@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.person.rentalcar.mapper.CarMapper">
+
     <insert id="addCar" parameterType="car">
         insert into Car(seriesId,carType,plateNumber,userEvaluation,productStartTime,productEndTime,carCreateTime,carCreater,carUpdateTime,carUpdater,carStatus)
         values (#{seriesId} ,#{carType},#{plateNumber} ,#{userEvaluation} ,#{productStartTime}  ,#{productEndTime},#{carCreateTime} ,#{carCreater} ,#{carUpdateTime} ,#{carUpdater}  ,#{carStatus}  )
@@ -58,17 +59,21 @@
         <include refid="personCondition"/>
     </update>
 
-    <update id="deleteCar" parameterType="integer">
-        update Car set carStatus=false
+    <update id="updateStatus">
+        update Car set carStatus=#{status,jdbcType=BOOLEAN}
         <include refid="personCondition"/>
     </update>
 
-    <select id="selectAllCar" resultType="car">
+    <select id="selectAllCar" parameterType="com.person.rentalcar.vo.query.PageRequest"
+            resultType="com.person.rentalcar.model.Car">
         select * from Car
     </select>
 
-    <select id="selectCarByCarId" parameterType="integer" resultType="car">
-        select * from Car
-        <include refid="personCondition"/>
+    <!--<select id="selectCarByCarId" parameterType="integer" resultType="car">-->
+    <!--select * from Car-->
+    <!--</select>-->
+
+    <select id="getTotalSize" resultType="long">
+        select count(1) from car
     </select>
 </mapper>

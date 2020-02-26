@@ -1,7 +1,7 @@
 package com.person.rentalcar.mapper;
 
 import com.person.rentalcar.model.User;
-import com.person.rentalcar.vo.query.UserQueryVO;
+import com.person.rentalcar.vo.query.PageRequest;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,6 +26,6 @@ public interface UserMapper {
 
     boolean updateRoleForUser(User user);
 
-    List<User> selectAllUser(UserQueryVO userQueryVO);
+    List<User> selectAllUser(PageRequest userQueryVO);
 
 }

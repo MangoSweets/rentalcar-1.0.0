@@ -113,4 +113,12 @@
         select * from
         <include refid="tablename"/>
     </select>
+
+    <select id="getSeriesNameBySeriesId" parameterType="integer" resultType="string">
+        select seriesname from series where seriesId=#{seriesId,jdbcType=INTEGER}
+    </select>
+
+    <select id="SeriesForIdAndname" resultType="series">
+        select seriesId,seriesname from series;
+    </select>
 </mapper>

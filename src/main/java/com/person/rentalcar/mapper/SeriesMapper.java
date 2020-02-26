@@ -14,5 +14,9 @@ public interface SeriesMapper {
 
     Series selectSeriesBySeriesId(int seriesId);
 
+    String getSeriesNameBySeriesId(int seriesId);
+
     List<Series> selectAllSeries();
+
+    List<Series>  SeriesForIdAndname();
 }

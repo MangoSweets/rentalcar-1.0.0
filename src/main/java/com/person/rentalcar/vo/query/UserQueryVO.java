@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class UserQueryVO extends PageRequest{
+public class UserQueryVO {
 
     /**
      * 查询内容

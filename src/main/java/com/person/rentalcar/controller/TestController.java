@@ -2,6 +2,7 @@ package com.person.rentalcar.controller;
 
 import com.person.rentalcar.mapper.*;
 import com.person.rentalcar.model.*;
+import com.person.rentalcar.vo.query.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,16 +68,16 @@ public class TestController {
         System.out.println(carMapper.selectCarByCarId(1));
     }
 
-    @RequestMapping("/test/car/selectall")
-    public void selectAllCer() {
-        System.out.println(carMapper.selectAllCar());
+    @RequestMapping("/test/car/query")
+    public void selectAllCer(PageRequest request) {
+        System.out.println(carMapper.selectAllCar(request));
     }
 
-    @RequestMapping("/test/car/delete")
-    public void deleteCer() {
-        carMapper.deleteCar(1);
-        System.out.println("删除");
-    }
+//    @RequestMapping("/test/car/delete")
+//    public void deleteCer() {
+//        carMapper.deleteCar(1);
+//        System.out.println("删除");
+//    }
 
     //-------------------------------------------------------------------
 

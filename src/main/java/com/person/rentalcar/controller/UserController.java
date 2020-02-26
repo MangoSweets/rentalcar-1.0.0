@@ -4,7 +4,7 @@ import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.service.UserService;
-import com.person.rentalcar.vo.query.UserQueryVO;
+import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class UserController {
 
     @CrossOrigin
     @GetMapping(value = "/user/selectall")
-    public ApiResponse<PageResult> selectAllUser(UserQueryVO userQueryVO) {
+    public ApiResponse<PageResult> selectAllUser(PageRequest userQueryVO) {
         System.out.println("111");
         PageResult pageInfo = userService.getPageInfo(userQueryVO);
         return RespGenerator.successful(pageInfo);

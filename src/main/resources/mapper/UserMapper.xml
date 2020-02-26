@@ -77,7 +77,7 @@
         <include refid="personCondition"/>
     </select>
 
-    <select id="selectAllUser" parameterType="com.person.rentalcar.vo.query.UserQueryVO" resultType="user">
+    <select id="selectAllUser" parameterType="com.person.rentalcar.vo.query.PageRequest" resultType="user">
         select * from User
         <if test="query != null and query != ''">
             where username like concat('%',#{query,jdbcType=VARCHAR},'%')
