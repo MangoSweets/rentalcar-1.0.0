@@ -66,7 +66,13 @@
 
     <select id="selectAllCar" parameterType="com.person.rentalcar.vo.query.PageRequest"
             resultType="com.person.rentalcar.model.Car">
-        select * from Car where seriesId in (select seriesId from series where seriesname like concat('%',#{query,jdbcType=VARCHAR} ,'%'))
+        select * from Car
+        <if test="query != null and query != ''">
+            where seriesId in (select seriesId from serieswhere seriesname like concat('%',#{query,jdbcType=VARCHAR}
+            ,'%'))
+        </if>
+
+
     </select>
 
     <!--<select id="selectCarByCarId" parameterType="integer" resultType="car">-->
@@ -76,4 +82,9 @@
     <select id="getTotalSize" resultType="long">
         select count(1) from car
     </select>
+
+    <delete id="deleteCar" parameterType="integer">
+        delete from car
+        <include refid="personCondition"/>
+    </delete>
 </mapper>

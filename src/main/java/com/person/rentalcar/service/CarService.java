@@ -68,7 +68,6 @@ public class CarService {
     }
 
     public ApiResponse addCar(Car car) {
-
         boolean b = mapper.addCar(car);
         if (b) {
             return RespGenerator.successful().setMessage("添加车辆成功");
@@ -85,5 +84,13 @@ public class CarService {
         }
         return RespGenerator.fail("400").setMessage("汽车编辑失败，请检查参数");
 
+    }
+
+    public ApiResponse deleteCar(int carId){
+        boolean b = mapper.deleteCar(carId);
+        if(b){
+            return RespGenerator.successful().setMessage("删除成功");
+        }
+        return RespGenerator.fail("400").setMessage("删除失败，请检查参数");
     }
 }

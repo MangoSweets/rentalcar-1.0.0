@@ -19,4 +19,6 @@ public interface CarMapper {
     List<Car> selectAllCar(PageRequest request);
 
     Long getTotalSize();
+
+    boolean deleteCar(int carId);
 }

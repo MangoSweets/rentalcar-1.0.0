@@ -43,4 +43,9 @@ public class CarController {
     public ApiResponse updateCar(@RequestBody Car car){
         return service.updateCar(car);
     }
+
+    @GetMapping("/car/delete")
+    public ApiResponse deleteCar(int carId){
+        return service.deleteCar(carId);
+    }
 }
