@@ -86,9 +86,9 @@ public class CarService {
 
     }
 
-    public ApiResponse deleteCar(int carId){
+    public ApiResponse deleteCar(int carId) {
         boolean b = mapper.deleteCar(carId);
-        if(b){
+        if (b) {
             return RespGenerator.successful().setMessage("删除成功");
         }
         return RespGenerator.fail("400").setMessage("删除失败，请检查参数");
