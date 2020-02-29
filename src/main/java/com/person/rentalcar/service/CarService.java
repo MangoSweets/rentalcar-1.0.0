@@ -63,9 +63,8 @@ public class CarService {
         boolean b = mapper.updateStatus(status, carId);
         if (b) {
             return RespGenerator.successful().setMessage("更改状态成功");
-        } else {
-            return RespGenerator.fail("400").setMessage("参数格式错误");
         }
+        return RespGenerator.fail("400").setMessage("参数格式错误");
     }
 
     public ApiResponse addCar(Car car) {
@@ -73,8 +72,18 @@ public class CarService {
         boolean b = mapper.addCar(car);
         if (b) {
             return RespGenerator.successful().setMessage("添加车辆成功");
-        } else {
-            return RespGenerator.fail("400").setMessage("添加车辆失败，请检查参数");
         }
+        return RespGenerator.fail("400").setMessage("添加车辆失败，请检查参数");
+
+    }
+
+    public ApiResponse updateCar(Car car) {
+
+        boolean b = mapper.updateCar(car);
+        if (b) {
+            return RespGenerator.successful().setMessage("汽车编辑成功");
+        }
+        return RespGenerator.fail("400").setMessage("汽车编辑失败，请检查参数");
+
     }
 }

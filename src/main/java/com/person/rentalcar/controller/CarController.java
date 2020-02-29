@@ -34,9 +34,13 @@ public class CarController {
         return service.updateStatus(status, carId);
     }
 
-    @PostMapping("/car/addcar")
+    @PostMapping("/car/add")
     public ApiResponse addCar(@RequestBody Car car){
         return service.addCar(car);
     }
 
+    @PostMapping("/car/update")
+    public ApiResponse updateCar(@RequestBody Car car){
+        return service.updateCar(car);
+    }
 }
