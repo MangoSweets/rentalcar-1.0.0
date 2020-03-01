@@ -1,6 +1,8 @@
 package com.person.rentalcar.mapper;
 
 import com.person.rentalcar.model.DrivingBehalf;
+import com.person.rentalcar.vo.query.PageRequest;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,5 +22,7 @@ public interface DrivingBehalfMapper {
 
     DrivingBehalf selectDrivingBehalfByDrivingBehalfId(int drivingBehalfId);
 
-    List<DrivingBehalf> selectAllDrivingBehalf();
+    List<DrivingBehalf> selectAllDrivingBehalf(PageRequest request);
+
+    boolean changeStatus(@Param("driverId") Integer driverId,@Param("status") boolean status);
 }

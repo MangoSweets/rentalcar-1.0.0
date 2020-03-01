@@ -5,27 +5,27 @@
 <mapper namespace="com.person.rentalcar.mapper.DrivingBehalfMapper">
 
     <insert id="addDrivingBehalf" parameterType="drivingbehalf">
-        insert into DrivingBehalf(userId,drivingName,drivingSex,drivingTelephone,creditscore,drivingComment,behalfLicense,drivingCreater,drivingCreateTime,drivingUpdater,drivingUpdateTime,drivingStatus)
-        values (#{userId} ,#{drivingName} ,#{drivingSex} ,#{drivingTelephone} ,#{creditscore} ,#{drivingComment} ,#{behalfLicense} ,#{drivingCreater} ,#{drivingCreateTime},#{drivingUpdater} ,#{drivingUpdateTime} ,#{drivingStatus} )
+        insert into DrivingBehalf(drivingName,drivingSex,drivingTelephone,creditscore,drivingComment,behalfLicense,drivingCreater,drivingCreateTime,drivingUpdater,drivingUpdateTime,drivingStatus)
+        values (#{drivingName} ,#{drivingSex} ,#{drivingTelephone} ,#{creditscore} ,#{drivingComment} ,#{behalfLicense} ,#{drivingCreater} ,#{drivingCreateTime},#{drivingUpdater} ,#{drivingUpdateTime} ,#{drivingStatus} )
     </insert>
 
     <sql id="drivingBehalfUpdate">
         <set>
-        <if test="userId!=null">
-             userId=#{userId},
-        </if>
-        <if test="drivingTelephone!=null">
-             drivingTelephone=#{drivingTelephone} ,
-        </if>
-        <if test="behalfLicense!=null">
-             behalfLicense=#{behalfLicense} ,
-        </if>
-        <if test="drivingUpdater!=null">
-             drivingUpdater=#{drivingUpdater} ,
-        </if>
-        <if test="drivingUpdateTime!=null">
-             drivingUpdateTime=#{drivingUpdateTime}
-        </if>
+            <if test="userId!=null">
+                userId=#{userId},
+            </if>
+            <if test="drivingTelephone!=null">
+                drivingTelephone=#{drivingTelephone} ,
+            </if>
+            <if test="behalfLicense!=null">
+                behalfLicense=#{behalfLicense} ,
+            </if>
+            <if test="drivingUpdater!=null">
+                drivingUpdater=#{drivingUpdater} ,
+            </if>
+            <if test="drivingUpdateTime!=null">
+                drivingUpdateTime=#{drivingUpdateTime}
+            </if>
         </set>
     </sql>
 
@@ -44,21 +44,30 @@
         <include refid="personConfition"/>
     </update>
 
-    <select id="selectAllDrivingBehalf" resultType="drivingbehalf">
+    <select id="selectAllDrivingBehalf" resultType="drivingbehalf"
+            parameterType="com.person.rentalcar.vo.query.PageRequest">
         select * from
         <include refid="tablename"/>
+        <if test="query != null and query != ''">
+            where drivingName like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+        </if>
     </select>
 
-    <update id="deleteDrivingBehalf" parameterType="integer">
-        update
+    <delete id="deleteDrivingBehalf" parameterType="integer">
+        delete from
         <include refid="tablename"/>
-        set drivingStatus=false
-        <include refid="personConfition"/>
-    </update>
+        where drivingBehalfId =#{drivingBehalfId,jdbcType=INTEGER}
+    </delete>
 
     <select id="selectDrivingBehalfByDrivingBehalfId" parameterType="integer" resultType="drivingbehalf">
         select * from
         <include refid="tablename"/>
         <include refid="personConfition"/>
     </select>
+
+    <update id="changeStatus">
+        update
+        <include refid="tablename"/>
+        set drivingStatus=#{status,jdbcType=BOOLEAN} where drivingBehalfId=#{driverId,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -137,7 +137,7 @@ public class TestController {
 
     @RequestMapping("/test/drivingBehalfMapper/selectall")
     public void selectAlldrivingBehalfMapper() {
-        System.out.println(drivingBehalfMapper.selectAllDrivingBehalf());
+//        System.out.println(drivingBehalfMapper.selectAllDrivingBehalf());
     }
 
     @RequestMapping("/test/drivingBehalfMapper/delete")
