@@ -42,7 +42,7 @@ public class CarService {
         PageHelper.startPage(pageNum, pageSize);
         List<Car> cars = mapper.selectAllCar(request);
         List<CarDTO> carDTOS = CarConvert.convertToCarDTOList(cars);
-        List<Series> seriesList = seriesMapper.selectAllSeries();
+        List<Series> seriesList = seriesMapper.selectAllSeries(new PageRequest());
         Map<Integer, String> map = new HashedMap();
         for (Series series : seriesList) {
             map.put(series.getSeriesId(), series.getSeriesName());

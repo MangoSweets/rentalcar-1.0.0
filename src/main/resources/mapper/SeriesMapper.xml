@@ -43,9 +43,6 @@
             <if test="fulelabel!=null">
                 fulelabel=#{fulelabel},
             </if>
-            <if test="engineIntakeType!=null">
-                engineIntakeType=#{engineIntakeType},
-            </if>
             <if test="drivingMode!=null">
                 drivingMode=#{drivingMode},
             </if>
@@ -54,12 +51,6 @@
             </if>
             <if test="displacement!=null">
                 displacement=#{displacement},
-            </if>
-            <if test="DVD !=null">
-                DVD =#{DVD},
-            </if>
-            <if test="GPS !=null">
-                GPS=#{GPS},
             </if>
             <if test=" voiceboxs!=null">
                 voiceboxs =#{voiceboxs},
@@ -85,8 +76,8 @@
     </sql>
 
     <insert id="addSeries" parameterType="series">
-        insert into Series(brand,seriesName,doors,skylight,airsac,seatType,fuelTank,seatNumber,fuelType,radar,fulelabel,engineIntakeType,drivingMode,transmissionType,displacement,DVD,GPS,voiceboxs,seriesCreater,seriesCreateTime,seriesUpdater,seriesUpdateTime,seriesStatus)
-        values (#{brand} ,#{seriesName} ,#{doors} ,#{skylight} ,#{airsac} ,#{seatType} ,#{fuelTank} ,#{seatNumber} ,#{fuelType} ,#{radar} ,#{fulelabel} ,#{engineIntakeType}  ,#{drivingMode} ,#{transmissionType} ,#{displacement} ,#{DVD} ,#{GPS} ,#{voiceboxs} ,#{seriesCreater} ,#{seriesCreateTime} ,#{seriesUpdater} ,#{seriesUpdateTime} ,#{seriesStatus} )
+        insert into Series(brand,seriesName,doors,skylight,airsac,seatType,fuelTank,seatNumber,fuelType,radar,fulelabel,drivingMode,transmissionType,displacement,voiceboxs,seriesCreater,seriesCreateTime,seriesUpdater,seriesUpdateTime,seriesStatus)
+        values (#{brand} ,#{seriesName} ,#{doors} ,#{skylight} ,#{airsac} ,#{seatType} ,#{fuelTank} ,#{seatNumber} ,#{fuelType} ,#{radar} ,#{fulelabel}  ,#{drivingMode} ,#{transmissionType} ,#{displacement} ,#{voiceboxs} ,#{seriesCreater} ,#{seriesCreateTime} ,#{seriesUpdater} ,#{seriesUpdateTime} ,#{seriesStatus} )
     </insert>
 
     <update id="updateSeries" parameterType="series">
@@ -96,12 +87,11 @@
         <include refid="personCondition"/>
     </update>
 
-    <update id="deleteSeriesBySeriesId" parameterType="integer">
-        update
+    <delete id="deleteSeriesBySeriesId" parameterType="integer">
+        delete from
         <include refid="tablename"/>
-        set seriesStatus=false
         <include refid="personCondition"/>
-    </update>
+    </delete>
 
     <select id="selectSeriesBySeriesId" parameterType="integer" resultType="series">
         select * from
@@ -112,13 +102,32 @@
     <select id="selectAllSeries" resultType="series">
         select * from
         <include refid="tablename"/>
+        <if test="query != null and query != ''">
+            where seriesname like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+        </if>
     </select>
 
     <select id="getSeriesNameBySeriesId" parameterType="integer" resultType="string">
-        select seriesname from series where seriesId=#{seriesId,jdbcType=INTEGER}
+        select seriesname from series where
+        <if test="seriesId != null">
+            seriesId=#{seriesId,jdbcType=INTEGER}
+        </if>
     </select>
 
     <select id="SeriesForIdAndname" resultType="series">
         select seriesId,seriesname from series;
     </select>
+
+    <update id="changeStatus" parameterType="boolean">
+        update
+        <include refid="tablename"/>
+        set
+        <if test="status != null">
+            seriesStatus =#{status,jdbcType=BOOLEAN}
+        </if>
+
+        <if test="seriesId != null">
+            where seriesId =#{seriesId,jdbcType=INTEGER}
+        </if>
+    </update>
 </mapper>

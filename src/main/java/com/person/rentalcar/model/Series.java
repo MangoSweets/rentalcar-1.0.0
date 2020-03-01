@@ -2,7 +2,6 @@ package com.person.rentalcar.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import sun.misc.Cache;
 
 import java.util.Date;
 
@@ -17,7 +16,6 @@ import java.util.Date;
 public class Series {
 
     private int seriesId;
-
 
     /**
      * 品牌名
@@ -77,7 +75,7 @@ public class Series {
     /**
      * 发动机进气形式
      */
-    private String engineIntakeType;
+//    private String engineIntakeType;
 
 
     /**
@@ -95,9 +93,9 @@ public class Series {
      */
     private String displacement;
 
-    private boolean DVD;
-
-    private boolean GPS;
+//    private boolean DVD;
+//
+//    private boolean GPS;
 
     /**
      * 音箱个数

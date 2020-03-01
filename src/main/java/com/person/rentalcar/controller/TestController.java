@@ -203,7 +203,7 @@ public class TestController {
 
     @RequestMapping("/test/seriesMapper/selectall")
     public void selectAllseriesMapper() {
-        System.out.println(seriesMapper.selectAllSeries());
+//        System.out.println(seriesMapper.selectAllSeries());
     }
 
     @RequestMapping("/test/seriesMapper/delete")
