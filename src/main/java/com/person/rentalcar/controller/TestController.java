@@ -65,7 +65,7 @@ public class TestController {
 
     @RequestMapping("/test/car/selectuser")
     public void selectCar() {
-        System.out.println(carMapper.selectCarByCarId(1));
+//        System.out.println(carMapper.selectCarByCarId(1));
     }
 
     @RequestMapping("/test/car/query")
@@ -170,7 +170,7 @@ public class TestController {
 
     @RequestMapping("/test/OrderMapper/selectall")
     public void selectAllOrderMapper() {
-        System.out.println(orderMapper.selectAllOrder());
+//        System.out.println(orderMapper.selectAllOrder());
     }
 
     @RequestMapping("/test/OrderMapper/delete")

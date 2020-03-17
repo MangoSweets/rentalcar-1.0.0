@@ -93,4 +93,8 @@ public class CarService {
         }
         return RespGenerator.fail("400").setMessage("删除失败，请检查参数");
     }
+
+    public ApiResponse<List<CarVO>> getLikeCar(String seriesName) {
+        return RespGenerator.successful(mapper.getLikeCar(seriesName));
+    }
 }

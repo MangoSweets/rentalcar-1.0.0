@@ -36,6 +36,11 @@ public class Car {
     private String plateNumber;
 
     /**
+     * 价格
+     */
+    private String price;
+
+    /**
      * 用户评论
      */
     private String userEvaluation;

@@ -6,8 +6,8 @@
 <mapper namespace="com.person.rentalcar.mapper.CarMapper">
 
     <insert id="addCar" parameterType="car">
-        insert into Car(seriesId,carType,plateNumber,userEvaluation,productStartTime,productEndTime,carCreateTime,carCreater,carUpdateTime,carUpdater,carStatus)
-        values (#{seriesId} ,#{carType},#{plateNumber} ,#{userEvaluation} ,#{productStartTime}  ,#{productEndTime},#{carCreateTime} ,#{carCreater} ,#{carUpdateTime} ,#{carUpdater}  ,#{carStatus}  )
+        insert into Car(seriesId,carType,plateNumber,price,userEvaluation,productStartTime,productEndTime,carCreateTime,carCreater,carUpdateTime,carUpdater,carStatus)
+        values (#{seriesId} ,#{carType},#{plateNumber} ,#{price},#{userEvaluation} ,#{productStartTime}  ,#{productEndTime},#{carCreateTime} ,#{carCreater} ,#{carUpdateTime} ,#{carUpdater}  ,#{carStatus}  )
     </insert>
 
     <sql id="CarUpdateConditon">
@@ -16,33 +16,47 @@
             <if test="seriesId!=null">
                 seriesId=#{seriesId},
             </if>
+
             <if test="carType != null">
                 carType=#{carType} ,
             </if>
+
             <if test="plateNumber != null">
                 plateNumber=#{plateNumber} ,
             </if>
+
+            <if test="price != null">
+                price = #{price},
+            </if>
+
             <if test="userEvaluation != null">
                 userEvaluation=#{userEvaluation} ,
             </if>
+
             <if test="carCreateTime != null">
                 carCreateTime=#{carCreateTime} ,
             </if>
+
             <if test="carCreater != null">
                 carCreater=#{carCreater} ,
             </if>
+
             <if test="carUpdateTime != null">
                 carUpdateTime=#{carUpdateTime} ,
             </if>
+
             <if test="carUpdater != null">
                 carUpdater=#{carUpdater} ,
             </if>
+
             <if test="productStartTime != null">
                 productStartTime=#{productStartTime} ,
             </if>
+
             <if test="productEndTime != null">
                 productEndTime =#{productEndTime} ,
             </if>
+
             <if test="carStatus != null">
                 carStatus =#{carStatus}
             </if>
@@ -75,9 +89,16 @@
 
     </select>
 
-    <!--<select id="selectCarByCarId" parameterType="integer" resultType="car">-->
-    <!--select * from Car-->
-    <!--</select>-->
+    <select id="getLikeCar" parameterType="string" resultType="com.person.rentalcar.vo.resp.CarVO">
+        SELECT
+        *
+        FROM
+        car c
+        LEFT join series s on c.seriesId=s.seriesId
+        <if test="seriesName != null and seriesName != ''">
+            where s.seriesname like concat('%',#{seriesName,jdbcType=VARCHAR} ,'%')
+        </if>
+    </select>
 
     <select id="getTotalSize" resultType="long">
         select count(1) from car

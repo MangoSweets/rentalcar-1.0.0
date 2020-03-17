@@ -14,7 +14,7 @@ public interface UserMapper {
 
     boolean updateUserStatus(@Param("userId") Integer userId,@Param("status") boolean status);
 
-    User selectUserByUsername(String username);
+    List<User> selectUserByUsername(String username);
 
     boolean isExistUserByUsername(String username);
 

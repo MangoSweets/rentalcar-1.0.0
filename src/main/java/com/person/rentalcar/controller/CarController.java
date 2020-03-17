@@ -5,12 +5,15 @@ import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.service.CarService;
 import com.person.rentalcar.vo.query.PageRequest;
+import com.person.rentalcar.vo.resp.CarVO;
 import com.person.rentalcar.vo.resp.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @describtion:
@@ -47,5 +50,10 @@ public class CarController {
     @GetMapping("/car/delete")
     public ApiResponse deleteCar(int carId){
         return service.deleteCar(carId);
+    }
+
+    @GetMapping("/car/getlikecar")
+    public ApiResponse<List<CarVO>> getLikeCar(String seriesName){
+        return service.getLikeCar(seriesName);
     }
 }

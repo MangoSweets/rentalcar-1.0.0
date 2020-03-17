@@ -25,10 +25,19 @@ public class Order {
      */
     private int userId;
 
+    private String username;
+
     /**
      * 汽车Id
      */
     private int carId;
+
+    /**
+     * 价格
+     */
+    private String price;
+
+    private String seriesName;
 
     /**
      * 订单开始时间

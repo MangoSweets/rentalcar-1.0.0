@@ -42,6 +42,11 @@ public class CarDTO {
     private String userEvaluation;
 
     /**
+     * 价格
+     */
+    private String price;
+
+    /**
      * 汽车创建时间,默认为当前系统时间
      */
     private Date carCreateTime;

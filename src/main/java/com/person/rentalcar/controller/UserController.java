@@ -6,8 +6,12 @@ import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.service.UserService;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @describtion:
@@ -52,7 +56,7 @@ public class UserController {
     }
 
     @PostMapping("/user/updateuser")
-    public ApiResponse updateUser(@RequestBody User user){
+    public ApiResponse updateUser(@RequestBody User user) {
         boolean b = userService.updateUser(user);
         if (b) {
             return RespGenerator.successful("更新成功");
@@ -62,12 +66,21 @@ public class UserController {
     }
 
     @GetMapping("/user/changestatus")
-    public ApiResponse changeStatus(Integer userId,boolean status){
+    public ApiResponse changeStatus(Integer userId, boolean status) {
         boolean b = userService.changeStatus(userId, status);
         if (b) {
             return RespGenerator.successful("更新状态成功");
         } else {
             return RespGenerator.fail("400").setMessage("更新状态失败");
         }
+    }
+
+    @GetMapping("/user/getlikenames")
+    public ApiResponse<List<User>> getLikeUsername(String username) {
+        List<User> maps = userService.selectUserByUsername(username);
+        if (CollectionUtils.isEmpty(maps)) {
+            return RespGenerator.successful(Collections.EMPTY_LIST);
+        }
+        return RespGenerator.successful(maps);
     }
 }

@@ -61,7 +61,15 @@ public class UserService {
         return userMapper.addUser(user);
     }
 
-    public User selectUserByUsername(String username) {
+    public List<User> selectUserByUsername(String username) {
+//        Map<String, String> map = new HashMap<>();
+//        List<String> nameList = userMapper.selectUserByUsername(username);
+//        for (String name : nameList) {
+//            map.put("value", name);
+//        }
+//        List<Map<String, String>> list = new ArrayList();
+//        list.add(map);
+//        return list;
         return userMapper.selectUserByUsername(username);
     }
 
@@ -81,11 +89,11 @@ public class UserService {
         return PageUtils.getPageResult(new PageInfo<>(userList));
     }
 
-    public boolean updateUser(User user){
+    public boolean updateUser(User user) {
         return userMapper.updateUser(user);
     }
 
-    public boolean changeStatus(Integer userId,boolean status){
+    public boolean changeStatus(Integer userId, boolean status) {
         return userMapper.updateUserStatus(userId, status);
     }
 }

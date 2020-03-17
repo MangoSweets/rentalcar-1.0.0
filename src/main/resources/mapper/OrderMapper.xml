@@ -41,10 +41,10 @@
         <include refid="personCondition"/>
     </update>
 
-    <update id="deleteOrder" parameterType="integer">
+    <update id="changeStatus">
         update
         <include refid="tablename"/>
-        set status=false
+        set status=#{status,jdbcType=BOOLEAN}
         <include refid="personCondition"/>
     </update>
 
@@ -54,9 +54,23 @@
         <include refid="personCondition"/>
     </select>
 
-    <select id="selectAllOrder" resultType="order">
-        select * from
-        <include refid="tablename"/>
+    <select id="selectAllOrder" resultType="order" parameterType="com.person.rentalcar.vo.query.PageRequest">
+        SELECT
+        o.*,u.username,s.seriesname,c.price
+        FROM
+        `order` o
+        LEFT JOIN `user` u ON o.userId =u.userId
+        LEFT JOIN car c on o.carId= c.carId
+        LEFT JOIN series s on c.seriesId = s.seriesId
+        <if test="query != null and query != ''">
+            where username like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+            or seriesname like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+            or o.orderId= #{query,jdbcType=VARCHAR}
+        </if>
     </select>
+
+    <delete id="deleteOrder" parameterType="integer">
+        delete from <include refid="tablename"/> where orderId =#{orderId,jdbcType=INTEGER}
+    </delete>
 
 </mapper>
