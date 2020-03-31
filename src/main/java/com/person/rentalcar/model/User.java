@@ -49,7 +49,13 @@ public class User {
     private String telephone;
 
     /**
-     * 身份证
+     * 证件类型(10:身份证，11:台湾居民来往大陆身份证，12:港澳来陆身份证，13:外籍护照)
+     */
+    private String cardTypeSelect;
+
+
+    /**
+     * 证件号码
      */
     private String IDCard;
 
@@ -69,9 +75,34 @@ public class User {
     private String email;
 
     /**
+     * 省份
+     */
+    private String province;
+
+    /**
+     * 城市
+     */
+    private String city;
+
+    /**
+     * 区县
+     */
+    private String region;
+
+    /**
      * 用户常驻地址
      */
     private String address;
+
+    /**
+     * 紧急联系人
+     */
+    private String errorTipLinkman;
+
+    /**
+     * 紧急联系电话
+     */
+    private String linkManTele;
 
     /**
      * 角色

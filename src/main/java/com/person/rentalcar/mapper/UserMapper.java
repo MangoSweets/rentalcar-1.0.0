@@ -28,4 +28,6 @@ public interface UserMapper {
 
     List<User> selectAllUser(PageRequest userQueryVO);
 
+    User getInformation(String username);
+
 }

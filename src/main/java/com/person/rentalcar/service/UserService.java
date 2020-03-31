@@ -62,20 +62,8 @@ public class UserService {
     }
 
     public List<User> selectUserByUsername(String username) {
-//        Map<String, String> map = new HashMap<>();
-//        List<String> nameList = userMapper.selectUserByUsername(username);
-//        for (String name : nameList) {
-//            map.put("value", name);
-//        }
-//        List<Map<String, String>> list = new ArrayList();
-//        list.add(map);
-//        return list;
         return userMapper.selectUserByUsername(username);
     }
-
-//    public List<User> selectAllUser(UserQueryVO vo) {
-//        return userMapper.selectAllUser(vo);
-//    }
 
     public boolean deleteUser(Integer userId) {
         return userMapper.deleteUser(userId);
@@ -95,5 +83,13 @@ public class UserService {
 
     public boolean changeStatus(Integer userId, boolean status) {
         return userMapper.updateUserStatus(userId, status);
+    }
+
+    public ApiResponse<User> getInformations(String username){
+        User information = userMapper.getInformation(username);
+        if(information == null){
+            return RespGenerator.fail("500");
+        }
+        return RespGenerator.successful(information);
     }
 }

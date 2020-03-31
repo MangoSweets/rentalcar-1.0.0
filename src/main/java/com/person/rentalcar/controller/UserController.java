@@ -83,4 +83,9 @@ public class UserController {
         }
         return RespGenerator.successful(maps);
     }
+
+    @GetMapping("/user/getinformations")
+    public ApiResponse<User> getInformations(String username) {
+        return userService.getInformations(username);
+    }
 }
