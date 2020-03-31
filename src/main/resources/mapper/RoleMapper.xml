@@ -17,30 +17,12 @@
             <if test="roleName!=null">
                 roleName=#{roleName},
             </if>
-            <if test="roleUrl!=null">
-                roleUrl=#{roleUrl},
-            </if>
-            <if test="permissions!=null">
-                permissions=#{permissions},
-            </if>
-            <if test="roleCreateTime!=null">
-                roleCreateTime=#{roleCreateTime},
-            </if>
-            <if test="roleCreater!=null">
-                roleCreater=#{roleCreater},
-            </if>
-            <if test="roleUpdateTime!=null">
-                roleUpdateTime=#{roleUpdateTime},
-            </if>
-            <if test="roleUpdater!=null">
-                roleUpdater=#{roleUpdater},
-            </if>
         </set>
     </sql>
 
     <insert id="addRole" parameterType="role">
-        insert into Role(roleName,roleUrl,permissions,roleCreateTime,roleCreater,roleUpdateTime,roleUpdater,roleStatus)
-        values (#{roleName},#{roleUrl},#{permissions},#{roleCreateTime},#{roleCreater},#{roleUpdateTime},#{roleUpdater},#{roleStatus})
+        insert into Role(roleName)
+        values (#{roleName})
     </insert>
 
     <update id="updateRole" parameterType="role">

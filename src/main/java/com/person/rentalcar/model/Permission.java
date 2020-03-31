@@ -3,8 +3,6 @@ package com.person.rentalcar.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
 /**
  * 描述: 权限
  * 版本: v1.0.0
@@ -25,32 +23,13 @@ public class Permission {
     private String permissionName;
 
     /**
+     * 权限码
+     */
+    private String permissionCode;
+
+    /**
      * 权限url
      */
     private String permissionUrl;
 
-    /**
-     * 权限创建时间
-     */
-    private Date permissionCreatTime;
-
-    /**
-     * 权限创建者
-     */
-    private String permissionCreater;
-
-    /**
-     * 权限更新时间
-     */
-    private Date permissionUpdateTime;
-
-    /**
-     * 权限更新人
-     */
-    private String permissionUpdater;
-
-    /**
-     * 权限状态
-     */
-    private boolean permissionStatus;
 }

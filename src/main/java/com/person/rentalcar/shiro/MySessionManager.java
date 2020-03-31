@@ -1,5 +1,5 @@
 package com.person.rentalcar.shiro;//package com.rentalcar.main.config.shiro;
-//
+
 //import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 //import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 //import org.apache.shiro.web.util.WebUtils;
@@ -9,27 +9,27 @@ package com.person.rentalcar.shiro;//package com.rentalcar.main.config.shiro;
 //
 //import javax.servlet.ServletRequest;
 //import javax.servlet.ServletResponse;
-//import javax.servlet.http.HttpServletRequest;
 //import java.io.Serializable;
 //
-//
-//public class SessionConfig extends DefaultWebSessionManager {
+///**
+// * 自定义sessionId获取
+// */
+//public class MySessionManager extends DefaultWebSessionManager {
 //
 //    private Logger logger = LoggerFactory.getLogger(this.getClass());
 //    private static final String AUTHORIZATION = "Authorization";
 //    private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
 //
-//    public SessionConfig() {
+//    public MySessionManager() {
 //        super();
 //    }
 //
 //    @Override
 //    protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
 //
-//        HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-//        String id = WebUtils.toHttp(request).getHeader("token");
+//        String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
 //        if (!StringUtils.isEmpty(id)) {
-//            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, "Stateless request");
+//            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);
 //            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);
 //            request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_IS_VALID, Boolean.TRUE);
 //            logger.info("调用SessionConfig获取sessionId="+id);
