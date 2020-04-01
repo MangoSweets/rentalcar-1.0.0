@@ -14,18 +14,23 @@
 
     <sql id="updateCondition">
         <set>
-            <if test="permissionName!=null">
+            <if test="permissionName!=null and permissionName!=''">
                 permissionName=#{permissionName},
             </if>
-            <if test="permissionUrl!=null">
+
+            <if test="permissionCode!=null and permissionCode!=''">
+                permissionCode=#{permissionCode},
+            </if>
+
+            <if test="permissionUrl!=null and permissionUrl!=''">
                 permissionUrl=#{permissionUrl},
             </if>
         </set>
     </sql>
 
     <insert id="addPermission" parameterType="permission">
-        insert into Permission(permissionName,permissionUrl)
-        values (#{permissionName},#{permissionUrl})
+        insert into Permission(permissionName,permissionCode,permissionUrl)
+        values (#{permissionName},#{permissionCode},#{permissionUrl})
     </insert>
 
     <update id="updatePermission" parameterType="permission">
@@ -35,16 +40,18 @@
         <include refid="personCondition"/>
     </update>
 
-    <update id="deletePermission" parameterType="integer">
-        update
+    <delete id="deletePermission" parameterType="integer">
+        delete from
         <include refid="tablename"/>
-        set permissionStatus=false
         <include refid="personCondition"/>
-    </update>
+    </delete>
 
-    <select id="selectAllPermission" resultType="permission">
+    <select id="selectAllPermission" parameterType="com.person.rentalcar.vo.query.PageRequest" resultType="permission">
         select * from
         <include refid="tablename"/>
+        <if test="query != null and query != ''">
+            where permissionName like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+        </if>
     </select>
 
     <select id="selectPermissionByPermissionId" parameterType="integer" resultType="permission">

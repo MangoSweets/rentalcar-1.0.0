@@ -1,6 +1,7 @@
 package com.person.rentalcar.mapper;
 
 import com.person.rentalcar.model.Permission;
+import com.person.rentalcar.vo.query.PageRequest;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface PermissionMapper {
 
     Permission selectPermissionByPermissionId(Integer permissionId);
 
-    List<Permission> selectAllPermission();
+    List<Permission> selectAllPermission(PageRequest request);
 
 }
