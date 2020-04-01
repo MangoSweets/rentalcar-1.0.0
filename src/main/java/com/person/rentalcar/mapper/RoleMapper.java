@@ -1,6 +1,7 @@
 package com.person.rentalcar.mapper;
 
 import com.person.rentalcar.model.Role;
+import com.person.rentalcar.vo.query.PageRequest;
 
 import java.util.List;
 
@@ -13,9 +14,5 @@ public interface RoleMapper {
 
     Role selectRole(int roleId);
 
-    List<Role> selectAllRole();
-
-//    List<Role> selectRoleByUserId(int userId);
-
-//    List<Permission> getPermissions(Role role);
+    List<Role> selectAllRole(PageRequest request);
 }

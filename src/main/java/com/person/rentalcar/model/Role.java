@@ -21,4 +21,9 @@ public class Role {
      * 角色名
      */
     private String roleName;
+
+    /**
+     * 角色标识
+     */
+    private String roleIdentity;
 }

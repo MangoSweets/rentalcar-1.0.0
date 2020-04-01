@@ -14,15 +14,18 @@
 
     <sql id="updateCondition">
         <set>
-            <if test="roleName!=null">
+            <if test="roleName!=null  and roleName!=''">
                 roleName=#{roleName},
+            </if>
+            <if test="roleIdentity!=null and roleIdentity!=''">
+                roleIdentity=#{roleIdentity}
             </if>
         </set>
     </sql>
 
     <insert id="addRole" parameterType="role">
-        insert into Role(roleName)
-        values (#{roleName})
+        insert into Role(roleName,roleIdentity)
+        values (#{roleName},#{roleIdentity})
     </insert>
 
     <update id="updateRole" parameterType="role">
@@ -32,16 +35,18 @@
         <include refid="personCondition"/>
     </update>
 
-    <update id="deleteRole" parameterType="integer">
-        update
+    <delete id="deleteRole" parameterType="integer">
+        delete from
         <include refid="tablename"/>
-        set roleStatus=false
         <include refid="personCondition"/>
-    </update>
+    </delete>
 
-    <select id="selectAllRole" resultType="role">
+    <select id="selectAllRole" parameterType="com.person.rentalcar.vo.query.PageRequest" resultType="role">
         select * from
         <include refid="tablename"/>
+        <if test="query != null and query != ''">
+            where roleName like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+        </if>
     </select>
 
     <select id="selectRole" parameterType="integer" resultType="role">
