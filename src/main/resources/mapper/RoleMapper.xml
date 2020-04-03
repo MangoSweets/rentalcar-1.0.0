@@ -54,4 +54,13 @@
         <include refid="tablename"/>
         <include refid="personCondition"/>
     </select>
+
+    <select id="selectPermissionByRole" parameterType="integer" resultType="permission">
+        SELECT
+            *
+        FROM
+            permission
+        WHERE
+	    permissionId IN ( SELECT permissionId FROM role_permission WHERE roleId = #{roleId,jdbcType=INTEGER}  )
+    </select>
 </mapper>

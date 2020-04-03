@@ -3,6 +3,7 @@ package com.person.rentalcar.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.person.rentalcar.mapper.RoleMapper;
+import com.person.rentalcar.model.Permission;
 import com.person.rentalcar.model.Role;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
@@ -53,5 +54,9 @@ public class RoleService {
             return RespGenerator.successful().setMessage("删除成功");
         }
         return RespGenerator.fail("500").setMessage("参数有误");
+    }
+
+    public List<Permission> selectPermissionByRole(int roleId) {
+        return mapper.selectPermissionByRole(roleId);
     }
 }

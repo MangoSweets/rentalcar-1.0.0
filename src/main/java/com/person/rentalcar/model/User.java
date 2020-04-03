@@ -1,6 +1,7 @@
 package com.person.rentalcar.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -137,5 +138,6 @@ public class User {
     /**
      * 用户状态
      */
+    @Getter
     private boolean userStatus;
 }

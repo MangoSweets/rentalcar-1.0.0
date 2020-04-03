@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.person.rentalcar.Enum.RespcodeEnum;
 import com.person.rentalcar.mapper.UserMapper;
+import com.person.rentalcar.model.Role;
 import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
@@ -85,11 +86,19 @@ public class UserService {
         return userMapper.updateUserStatus(userId, status);
     }
 
-    public ApiResponse<User> getInformations(String username){
+    public ApiResponse<User> getInformations(String username) {
         User information = userMapper.getInformation(username);
-        if(information == null){
+        if (information == null) {
             return RespGenerator.fail("500");
         }
         return RespGenerator.successful(information);
+    }
+
+    public Role selectRoleByUserId(int userId) {
+        return userMapper.selectRoleByUserId(userId);
+    }
+
+    public User findByUsername(String username) {
+        return userMapper.findByUsername(username);
     }
 }

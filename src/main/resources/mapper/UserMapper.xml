@@ -95,10 +95,6 @@
         select COUNT(1) from User where username=#{username}
     </select>
 
-    <select id="getRoles" parameterType="user" resultType="string">
-        select roles from User
-        <include refid="personCondition"/>
-    </select>
 
     <select id="selectAllUser" parameterType="com.person.rentalcar.vo.query.PageRequest" resultType="user">
         select * from User
@@ -115,5 +111,18 @@
     <select id="getInformation" parameterType="string" resultType="user">
         select userId,name,cardTypeSelect,IDCard,telephone,email,address,province,city,region,errorTipLinkman,linkManTele
         from user where username=#{username,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectRoleByUserId" parameterType="integer" resultType="role">
+        SELECT
+            *
+        FROM
+            role
+        WHERE
+	    roleid = ( SELECT roleId FROM user_role WHERE userId = #{UserId,jdbcType=INTEGER}  )
+    </select>
+
+    <select id="findByUsername" parameterType="string" resultType="user">
+        select * from user where username=#{username,jdbcType=VARCHAR}
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.person.rentalcar.mapper;
 
+import com.person.rentalcar.model.Permission;
 import com.person.rentalcar.model.Role;
 import com.person.rentalcar.vo.query.PageRequest;
 
@@ -15,4 +16,6 @@ public interface RoleMapper {
     Role selectRole(int roleId);
 
     List<Role> selectAllRole(PageRequest request);
+
+    List<Permission> selectPermissionByRole(int roleId);
 }

@@ -1,5 +1,6 @@
 package com.person.rentalcar.mapper;
 
+import com.person.rentalcar.model.Role;
 import com.person.rentalcar.model.User;
 import com.person.rentalcar.vo.query.PageRequest;
 import org.apache.ibatis.annotations.Param;
@@ -18,11 +19,9 @@ public interface UserMapper {
 
     boolean isExistUserByUsername(String username);
 
-    String getRoles(User user);
-
     boolean deleteUser(Integer userId);
 
-    //----------------------管理员-----------------------
+    User findByUsername(String username);
 
     boolean updateRoleForUser(User user);
 
@@ -30,4 +29,5 @@ public interface UserMapper {
 
     User getInformation(String username);
 
+    Role selectRoleByUserId(int UserId);
 }
