@@ -15,12 +15,13 @@ public final class RespGenerator {
     }
 
     /**
-     * @param data data
      * @param <T>  T
      * @return ApiResponse
      */
     public static <T> ApiResponse<T> successful(T data) {
         return new ApiResponse<T>().setCode(SystemCode.SUCCESS).setData(data);
+//        ApiResponse apiResponse = successful().setParams(args);
+//        return apiResponse;
     }
 
     /**

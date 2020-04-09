@@ -3,7 +3,6 @@ package com.person.rentalcar.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.person.rentalcar.Enum.RespcodeEnum;
 import com.person.rentalcar.mapper.UserMapper;
 import com.person.rentalcar.model.Role;
 import com.person.rentalcar.model.User;
@@ -12,15 +11,8 @@ import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.SecureRandomNumberGenerator;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -30,33 +22,34 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public ApiResponse login(User user) {
-        if (!userMapper.isExistUserByUsername(user.getUsername())) {
-            return RespGenerator.fail(RespcodeEnum.FAILD.getCode(), "用户名不存在");
-        }
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-        usernamePasswordToken.setRememberMe(true);
-        try {
-            subject.login(usernamePasswordToken);
-            return RespGenerator.successful(usernamePasswordToken);
-        } catch (AuthenticationException e) {
-            return RespGenerator.fail(RespcodeEnum.FAILD.getCode(), "密码错误");
-        }
 
-    }
+//    public ApiResponse login(User user) {
+//        if (!userMapper.isExistUserByUsername(user.getUsername())) {
+//            return RespGenerator.fail(RespcodeEnum.FAILD.getCode(), "用户名不存在");
+//        }
+//        Subject subject = SecurityUtils.getSubject();
+//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+//        usernamePasswordToken.setRememberMe(true);
+//        try {
+//            subject.login(usernamePasswordToken);
+//            return RespGenerator.successful(usernamePasswordToken);
+//        } catch (AuthenticationException e) {
+//            return RespGenerator.fail(RespcodeEnum.FAILD.getCode(), "密码错误");
+//        }
+//
+//    }
 
-    public ApiResponse<String> register(User user) {
-        user.setUsername(HtmlUtils.htmlEscape(user.getUsername()));
-        if (userMapper.isExistUserByUsername(user.getUsername()))
-            return RespGenerator.fail("该用户名已存在");
-        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
-        int times = 2;
-        String encodedPassword = new SimpleHash("md5", user.getPassword(), salt, times).toString();
-        user.setSalt(salt).setPassword(encodedPassword);
-        userMapper.addUser(user);
-        return RespGenerator.successful(RespcodeEnum.SUCCESS.getCode());
-    }
+//    public ApiResponse<String> register(User user) {
+//        user.setUsername(HtmlUtils.htmlEscape(user.getUsername()));
+//        if (userMapper.isExistUserByUsername(user.getUsername()))
+//            return RespGenerator.fail("该用户名已存在");
+//        String salt = new SecureRandomNumberGenerator().nextBytes().toString();
+//        int times = 2;
+//        String encodedPassword = new SimpleHash("md5", user.getPassword(), salt, times).toString();
+//        user.setSalt(salt).setPassword(encodedPassword);
+//        userMapper.addUser(user);
+//        return RespGenerator.successful(RespcodeEnum.SUCCESS.getCode());
+//    }
 
     public boolean addUser(User user) {
         return userMapper.addUser(user);
@@ -101,4 +94,10 @@ public class UserService {
     public User findByUsername(String username) {
         return userMapper.findByUsername(username);
     }
+
+    public User findByUserId(int userId) {
+        return userMapper.findByUserId(userId);
+    }
+
+
 }

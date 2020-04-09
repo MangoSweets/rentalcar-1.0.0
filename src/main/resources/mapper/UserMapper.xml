@@ -125,4 +125,8 @@
     <select id="findByUsername" parameterType="string" resultType="user">
         select * from user where username=#{username,jdbcType=VARCHAR}
     </select>
+
+    <select id="findByUserId" parameterType="int" resultType="user">
+        select * from user where userId=#{userId,jdbcType=INTEGER}
+    </select>
 </mapper>

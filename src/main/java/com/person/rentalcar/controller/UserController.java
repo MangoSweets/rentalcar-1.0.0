@@ -6,8 +6,9 @@ import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.service.UserService;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -24,8 +25,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin
+//    @CrossOrigin
+//    @VerifyToken
     @GetMapping(value = "/user/selectall")
+    @RequiresAuthentication
     public ApiResponse<PageResult> selectAllUser(PageRequest userQueryVO) {
         System.out.println("111");
         PageResult pageInfo = userService.getPageInfo(userQueryVO);
@@ -34,6 +37,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/user/addUser")
+    @RequiresAuthentication
     public ApiResponse addUser(@RequestBody User user) {
         System.out.println("添加用户");
         System.out.println(user.toString());
@@ -46,6 +50,7 @@ public class UserController {
     }
 
     @GetMapping("/user/deleteuser")
+    @RequiresAuthentication
     public ApiResponse deleteUser(Integer userId) {
         boolean b = userService.deleteUser(userId);
         if (b) {
@@ -56,6 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/user/updateuser")
+    @RequiresAuthentication
     public ApiResponse updateUser(@RequestBody User user) {
         boolean b = userService.updateUser(user);
         if (b) {
@@ -66,6 +72,7 @@ public class UserController {
     }
 
     @GetMapping("/user/changestatus")
+    @RequiresAuthentication
     public ApiResponse changeStatus(Integer userId, boolean status) {
         boolean b = userService.changeStatus(userId, status);
         if (b) {
@@ -76,6 +83,7 @@ public class UserController {
     }
 
     @GetMapping("/user/getlikenames")
+    @RequiresAuthentication
     public ApiResponse<List<User>> getLikeUsername(String username) {
         List<User> maps = userService.selectUserByUsername(username);
         if (CollectionUtils.isEmpty(maps)) {
@@ -85,6 +93,7 @@ public class UserController {
     }
 
     @GetMapping("/user/getinformations")
+    @RequiresAuthentication
     public ApiResponse<User> getInformations(String username) {
         return userService.getInformations(username);
     }

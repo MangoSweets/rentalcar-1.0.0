@@ -10,7 +10,16 @@ spring:
     port: 25
     protocol: smtp
     username: 825543676@qq.com
-
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        min-idle: 10
+        max-idle: 50
+        max-active: 200
+        max-wait: 3000
   datasource:
     url: jdbc:mysql://localhost:3306/carrentalsystem?serverTimezone=GMT&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
@@ -49,3 +58,32 @@ pagehelper:
   helper-dialect: mysql
   support-methods-arguments: true
   params: count=countsql
+token:
+  #  token有效时间，单位分钟 24*60=1440
+  tokenExpireTime: 1440
+  # 更新令牌时间 2*60=120
+  refreshCheckTime: 120
+  #  #  RefreshToken过期时间，单位：分钟, 24*60=1440
+  #  refreshTokenExpireTime: 1440
+  #  shiro缓存有效期，单位分钟,2*60=120
+  shiroCacheExpireTime: 120
+  #  token加密密钥
+  secretKey: story-admin
+permission-config:
+  perms:
+    - key: /
+      value: anon
+    - key: /login
+      value: anon
+    - key: /logout
+      value: logout
+    - key: /login.jsp
+      value: anon
+#    - key: /v2/api-docs/**
+#      value: anon
+#    - key: /webjars/**
+#      value: anon
+#    - key: /druid/**
+#      value: anon
+    - key: /**
+      value: jwt

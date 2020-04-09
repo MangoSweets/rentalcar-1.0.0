@@ -23,6 +23,8 @@ public interface UserMapper {
 
     User findByUsername(String username);
 
+    User findByUserId(int userId);
+
     boolean updateRoleForUser(User user);
 
     List<User> selectAllUser(PageRequest userQueryVO);

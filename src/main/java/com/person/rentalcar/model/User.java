@@ -1,7 +1,9 @@
 package com.person.rentalcar.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -13,6 +15,8 @@ import java.util.Date;
  * 作者：yejun
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 public class User {
     /**
@@ -140,4 +144,8 @@ public class User {
      */
     @Getter
     private boolean userStatus;
+
+    public User(String account) {
+        this.username=account;
+    }
 }
