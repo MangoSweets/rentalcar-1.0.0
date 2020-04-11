@@ -6,6 +6,7 @@ import com.person.rentalcar.mapper.SeriesMapper;
 import com.person.rentalcar.model.Series;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
+import com.person.rentalcar.utils.DateUtils;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
@@ -49,6 +50,7 @@ public class SeriesService {
     }
 
     public ApiResponse addSeries(Series series) {
+        series.setSeriesCreateTime(DateUtils.parseDateTime(DateUtils.getCurrentDatetime()));
         boolean b = mapper.addSeries(series);
         if (b) {
             return RespGenerator.successful().setMessage("成功添加一个系列");
@@ -57,6 +59,7 @@ public class SeriesService {
     }
 
     public ApiResponse updateSeries(Series series) {
+        series.setSeriesUpdateTime(DateUtils.parseDateTime(DateUtils.getCurrentDatetime()));
         boolean b = mapper.updateSeries(series);
         if (b) {
             return RespGenerator.successful().setMessage("更新成功");

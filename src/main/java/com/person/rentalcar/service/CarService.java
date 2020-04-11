@@ -10,6 +10,7 @@ import com.person.rentalcar.model.Car;
 import com.person.rentalcar.model.Series;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
+import com.person.rentalcar.utils.DateUtils;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.CarVO;
@@ -68,6 +69,7 @@ public class CarService {
     }
 
     public ApiResponse addCar(Car car) {
+        car.setCarCreateTime(DateUtils.parseDateTime(DateUtils.getCurrentDatetime()));
         boolean b = mapper.addCar(car);
         if (b) {
             return RespGenerator.successful().setMessage("添加车辆成功");
@@ -77,7 +79,7 @@ public class CarService {
     }
 
     public ApiResponse updateCar(Car car) {
-
+        car.setCarUpdateTime(DateUtils.parseDateTime(DateUtils.getCurrentDatetime()));
         boolean b = mapper.updateCar(car);
         if (b) {
             return RespGenerator.successful().setMessage("汽车编辑成功");
