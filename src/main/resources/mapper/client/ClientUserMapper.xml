@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.person.rentalcar.mapper.client.ClientUserMapper">
+
+    <sql id="userUpdate">
+        <set>
+            <if test="password != null and password != ''">
+                password=#{password} ,
+            </if>
+            <if test="salt != null and salt != ''">
+                salt=#{salt} ,
+            </if>
+            <if test="bankCard != null and bankCard != ''">
+                bankCard=#{bankCard} ,
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone=#{telephone} ,
+            </if>
+            <if test="drivingLicense != null and drivingLicense != ''">
+                drivingLicense=#{drivingLicense} ,
+            </if>
+            <if test="email != null and email != ''">
+                email=#{email} ,
+            </if>
+            <if test="province != null and province != ''">
+                province=#{province} ,
+            </if>
+            <if test="city != null and city != ''">
+                city=#{city} ,
+            </if>
+            <if test="region != null and region != ''">
+                region=#{region} ,
+            </if>
+            <if test="address != null and address != ''">
+                address=#{address} ,
+            </if>
+
+            <if test="errorTipLinkman != null and errorTipLinkman != ''">
+                errorTipLinkman=#{errorTipLinkman},
+            </if>
+
+            <if test="linkManTele != null and linkManTele != ''">
+                linkManTele=#{linkManTele},
+            </if>
+
+            <if test="drivingBehalfID != null and drivingBehalfID != ''">
+                drivingBehalfID=#{drivingBehalfID} ,
+            </if>
+
+            <if test="userUpdateTime != null and userUpdateTime != ''">
+                userUpdateTime=#{userUpdateTime} ,
+            </if>
+
+            <if test="userUpdater != null and userUpdater != ''">
+                userUpdater=#{userUpdater} ,
+            </if>
+        </set>
+    </sql>
+
+    <sql id="personCondition">
+         where userId=#{userId}
+    </sql>
+
+    <select id="getPwdByUsername" parameterType="string" resultType="user">
+        select userId,password from user where username =#{username}
+    </select>
+
+    <insert id="addUser" parameterType="user">
+        insert into user(userId,username,`password`,salt,`name`,sex,telephone,cardTypeSelect,IDCard,bankCard,drivingLicense,email,province,city,region,address,errorTipLinkman,linkManTele,roles,drivingBehalfID,userCreateTime,userCreater,userUpdateTime,userUpdater,userStatus)
+          values (#{userId},#{username},#{password},#{salt},#{name},#{sex},#{telephone},#{cardTypeSelect},#{IDCard},#{bankCard},#{drivingLicense},#{email},#{province},#{city},#{region},#{address},#{errorTipLinkman},#{linkManTele},#{roles},#{drivingBehalfID},#{userCreateTime},#{userCreater},#{userUpdateTime},#{userUpdater},#{userStatus})
+    </insert>
+
+    <update id="updateUser" parameterType="user">
+        update User
+        <include refid="userUpdate"/>
+        <include refid="personCondition"/>
+    </update>
+
+    <update id="modifyPassword">
+        update user set password =#{password,jdbcType=VARCHAR}  where userId =#{id}
+    </update>
+</mapper>
