@@ -27,33 +27,33 @@ public class CarController {
     private CarService service;
 
     @GetMapping("/car/query")
-    public ApiResponse<PageResult> selectAll(PageRequest request){
+    public ApiResponse<PageResult> selectAll(PageRequest request) {
         PageResult pageResult = service.selectAll(request);
         return RespGenerator.successful(pageResult);
     }
 
     @GetMapping("/car/changestatus")
-    public ApiResponse changeStatus(boolean status,Integer carId){
+    public ApiResponse changeStatus(boolean status, Integer carId) {
         return service.updateStatus(status, carId);
     }
 
     @PostMapping("/car/add")
-    public ApiResponse addCar(@RequestBody Car car){
+    public ApiResponse addCar(@RequestBody Car car) {
         return service.addCar(car);
     }
 
     @PostMapping("/car/update")
-    public ApiResponse updateCar(@RequestBody Car car){
+    public ApiResponse updateCar(@RequestBody Car car) {
         return service.updateCar(car);
     }
 
     @GetMapping("/car/delete")
-    public ApiResponse deleteCar(int carId){
+    public ApiResponse deleteCar(int carId) {
         return service.deleteCar(carId);
     }
 
     @GetMapping("/car/getlikecar")
-    public ApiResponse<List<CarVO>> getLikeCar(String seriesName){
+    public ApiResponse<List<CarVO>> getLikeCar(String seriesName) {
         return service.getLikeCar(seriesName);
     }
 }
