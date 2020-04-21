@@ -10,6 +10,10 @@ spring:
     port: 25
     protocol: smtp
     username: 825543676@qq.com
+  mvc:
+    static-path-pattern: /image/**
+  resources:
+    static-locations: file:E://image/
   redis:
     database: 0
     host: 127.0.0.1
@@ -75,8 +79,8 @@ permission-config:
       value: logout
     - key: /login.jsp
       value: anon
-#    - key: /client/**
-#      value: authc
+    - key: /image/**
+      value: anon
 #    - key: /webjars/**
 #      value: anon
 #    - key: /druid/**

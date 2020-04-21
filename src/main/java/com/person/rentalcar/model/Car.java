@@ -26,6 +26,11 @@ public class Car {
     private int seriesId;
 
     /**
+     * 图片保存路径
+     */
+    private String imageUrl;
+
+    /**
      * 汽车类型(新能源/燃油)
      */
     private String carType;

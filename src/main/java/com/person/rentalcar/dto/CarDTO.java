@@ -22,6 +22,11 @@ public class CarDTO {
     private int seriesId;
 
     /**
+     * 图片保存路径
+     */
+    private String imageUrl;
+
+    /**
      * 系列名
      */
     private String seriesName;

@@ -6,58 +6,62 @@
 <mapper namespace="com.person.rentalcar.mapper.CarMapper">
 
     <insert id="addCar" parameterType="car">
-        insert into Car(seriesId,carType,plateNumber,price,userEvaluation,productStartTime,productEndTime,carCreateTime,carCreater,carUpdateTime,carUpdater,carStatus)
-        values (#{seriesId} ,#{carType},#{plateNumber} ,#{price},#{userEvaluation} ,#{productStartTime}  ,#{productEndTime},#{carCreateTime} ,#{carCreater} ,#{carUpdateTime} ,#{carUpdater}  ,#{carStatus}  )
+        insert into Car(seriesId,carType,imageUrl,plateNumber,price,userEvaluation,productStartTime,productEndTime,carCreateTime,carCreater,carUpdateTime,carUpdater,carStatus)
+        values (#{seriesId} ,#{carType},#{imageUrl},#{plateNumber} ,#{price},#{userEvaluation} ,#{productStartTime}  ,#{productEndTime},#{carCreateTime} ,#{carCreater} ,#{carUpdateTime} ,#{carUpdater}  ,#{carStatus}  )
     </insert>
 
     <sql id="CarUpdateConditon">
 
         <set>
-            <if test="seriesId!=null">
+            <if test="seriesId != null seriesId and != ''">
                 seriesId=#{seriesId},
             </if>
 
-            <if test="carType != null">
+            <if test="carType != null and carType != ''">
                 carType=#{carType} ,
             </if>
 
-            <if test="plateNumber != null">
+            <if test="imageUrl != null and imageUrl != ''">
+                imageUrl=#{imageUrl} ,
+            </if>
+
+            <if test="plateNumber != null and plateNumber != ''">
                 plateNumber=#{plateNumber} ,
             </if>
 
-            <if test="price != null">
+            <if test="price != null and price != ''">
                 price = #{price},
             </if>
 
-            <if test="userEvaluation != null">
+            <if test="userEvaluation != null and userEvaluation != ''">
                 userEvaluation=#{userEvaluation} ,
             </if>
 
-            <if test="carCreateTime != null">
+            <if test="carCreateTime != null and carCreateTime != ''">
                 carCreateTime=#{carCreateTime} ,
             </if>
 
-            <if test="carCreater != null">
+            <if test="carCreater != null and carCreater != ''">
                 carCreater=#{carCreater} ,
             </if>
 
-            <if test="carUpdateTime != null">
+            <if test="carUpdateTime != null and carUpdateTime != ''">
                 carUpdateTime=#{carUpdateTime} ,
             </if>
 
-            <if test="carUpdater != null">
+            <if test="carUpdater != null and carUpdater != ''">
                 carUpdater=#{carUpdater} ,
             </if>
 
-            <if test="productStartTime != null">
+            <if test="productStartTime != null and productStartTime != ''">
                 productStartTime=#{productStartTime} ,
             </if>
 
-            <if test="productEndTime != null">
+            <if test="productEndTime != null and productEndTime != ''">
                 productEndTime =#{productEndTime} ,
             </if>
 
-            <if test="carStatus != null">
+            <if test="carStatus != null and carStatus != ''">
                 carStatus =#{carStatus}
             </if>
         </set>
@@ -82,7 +86,7 @@
             resultType="com.person.rentalcar.model.Car">
         select * from Car
         <if test="query != null and query != ''">
-            where seriesId in (select seriesId from serieswhere seriesname like concat('%',#{query,jdbcType=VARCHAR}
+            where seriesId in (select seriesId from series where seriesname like concat('%',#{query,jdbcType=VARCHAR}
             ,'%'))
         </if>
 

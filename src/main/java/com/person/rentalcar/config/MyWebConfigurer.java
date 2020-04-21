@@ -1,34 +1,19 @@
 package com.person.rentalcar.config;
 
-///**
-// * @describtion:
-// * @author: yejun
-// * @time: 2020/1/18
-// */
-//@SpringBootConfiguration
-//public class MyWebConfigurer implements WebMvcConfigurer {
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//    @Bean
-//    public InterceptorConfig getLoginInterceptor(){
-//        return new InterceptorConfig();
-//    }
-////
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        //所有请求都允许跨域
-//        registry.addMapping("/**")
-//                .allowCredentials(true)
-//                .allowedOrigins("http://localhost:8080")
-//                .allowedMethods("POST","GET","PUT","DELETE","OPTIONS")
-//                .allowedHeaders("*");
-//    }
+/**
+ * @describtion:
+ * @author: yejun
+ * @time: 2020/1/18
+ */
+@Configuration
+public class MyWebConfigurer implements WebMvcConfigurer {
 
 //    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(getLoginInterceptor())
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/index.html")
-//                .excludePathPatterns("/api/login")
-//                .excludePathPatterns("/api/logout");
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/static/image/**").addResourceLocations("classpath:/static/image/");
+//        registry.addResourceHandler("/static/image/**").addResourceLocations("file:" + UploadUtils.getImgDirFile().getAbsolutePath() + "/");  //添加这一行
 //    }
-//}
+}
