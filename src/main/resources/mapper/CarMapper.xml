@@ -13,7 +13,7 @@
     <sql id="CarUpdateConditon">
 
         <set>
-            <if test="seriesId != null seriesId and != ''">
+            <if test="seriesId != null and seriesId  != ''">
                 seriesId=#{seriesId},
             </if>
 
@@ -37,7 +37,7 @@
                 userEvaluation=#{userEvaluation} ,
             </if>
 
-            <if test="carCreateTime != null and carCreateTime != ''">
+            <if test="carCreateTime != null">
                 carCreateTime=#{carCreateTime} ,
             </if>
 
@@ -45,7 +45,7 @@
                 carCreater=#{carCreater} ,
             </if>
 
-            <if test="carUpdateTime != null and carUpdateTime != ''">
+            <if test="carUpdateTime != null">
                 carUpdateTime=#{carUpdateTime} ,
             </if>
 
@@ -53,16 +53,16 @@
                 carUpdater=#{carUpdater} ,
             </if>
 
-            <if test="productStartTime != null and productStartTime != ''">
+            <if test="productStartTime != null ">
                 productStartTime=#{productStartTime} ,
             </if>
 
-            <if test="productEndTime != null and productEndTime != ''">
+            <if test="productEndTime != null">
                 productEndTime =#{productEndTime} ,
             </if>
 
             <if test="carStatus != null and carStatus != ''">
-                carStatus =#{carStatus}
+                carStatus =#{carStatus},
             </if>
         </set>
     </sql>
