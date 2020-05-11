@@ -1,9 +1,13 @@
 package com.person.rentalcar.controller.client;
 
+import com.person.rentalcar.model.Order;
+import com.person.rentalcar.model.Series;
 import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.service.client.ClientUserService;
+import com.person.rentalcar.vo.query.ClientQueryCarVO;
+import com.person.rentalcar.vo.resp.PageResult;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -97,5 +101,35 @@ public class ClientUserController {
     @RequiresAuthentication
     public ApiResponse modifyPassword(String userId, String password) {
         return service.modifyPassword(userId, password);
+    }
+
+    @PostMapping("/queryCar")
+    @RequiresAuthentication
+    public ApiResponse<PageResult> queryCar(@RequestBody ClientQueryCarVO vo) {
+        return RespGenerator.successful(service.queryCar(vo));
+    }
+
+    @GetMapping("/getUserId")
+    @RequiresAuthentication
+    public ApiResponse<Integer> getUserIdForUsername(String username) {
+        return service.getUserIdForUsername(username);
+    }
+
+    @GetMapping("/getOrderInfoForUser")
+    @RequiresAuthentication
+    public ApiResponse<User> getUserInfoForOrder(int userId) {
+        return service.getUserInfoForOrder(userId);
+    }
+
+    @GetMapping("/getSeriesInfoForCarId")
+    @RequiresAuthentication
+    public ApiResponse<Series> getSeriesInfoForCarId(int carId) {
+        return service.getSeriesInfoForCarId(carId);
+    }
+
+    @PostMapping("/addOrder")
+    @RequiresAuthentication
+    public ApiResponse getOrder(@RequestBody Order order){
+        return service.addOrder(order);
     }
 }

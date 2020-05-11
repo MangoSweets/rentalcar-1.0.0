@@ -82,4 +82,51 @@
     <update id="modifyPassword">
         update user set password =#{password,jdbcType=VARCHAR}  where userId =#{id}
     </update>
+
+    <select id="selectCarInformationForClient" parameterType="com.person.rentalcar.vo.query.ClientQueryCarVO"
+            resultType="com.person.rentalcar.vo.resp.ClientCarVO">
+        SELECT
+        c.carId,
+        c.imageUrl,
+        s.brand,
+        s.seriesname,
+        c.price
+        FROM
+        car c
+        INNER JOIN series s
+        WHERE
+        <if test="brand != null and brand != ''">
+            brand =#{brand,jdbcType=VARCHAR} and
+        </if>
+
+        <if test="price != null and price != ''">
+            price <![CDATA[ <= ]]> #{price,jdbcType=VARCHAR} and
+        </if>
+        c.seriesId = s.seriesId
+        AND c.carId NOT IN ( SELECT carId FROM `order` WHERE startTime > #{backTime,jdbcType=VARCHAR} AND endTime
+        &lt;
+        #{getTime,jdbcType=VARCHAR} )
+
+    </select>
+
+    <select id="getTotalSize" resultType="long">
+        select count(1) from car
+    </select>
+
+    <select id="getUserIdForUsername" parameterType="string" resultType="int">
+        select userId from user where username=#{username,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getUserInfoForOrder" parameterType="int" resultType="user">
+        select name,cardTypeSelect,IDCard,email from user where userId=#{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getSeriesInfoForCarId" parameterType="int" resultType="series">
+        select * from series where seriesId in (SELECT seriesId from car where carId=#{carId,jdbcType=INTEGER}  )
+    </select>
+
+    <insert id="addOrder" parameterType="order">
+        insert into `Order`(userId,carId,startTime,endTime,`status`)
+        values (#{userId} ,#{carId} ,#{startTime} ,#{endTime} ,#{status} )
+    </insert>
 </mapper>

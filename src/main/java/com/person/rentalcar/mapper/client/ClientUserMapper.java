@@ -1,7 +1,13 @@
 package com.person.rentalcar.mapper.client;
 
+import com.person.rentalcar.model.Order;
+import com.person.rentalcar.model.Series;
 import com.person.rentalcar.model.User;
+import com.person.rentalcar.vo.query.ClientQueryCarVO;
+import com.person.rentalcar.vo.resp.ClientCarVO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @describtion:
@@ -17,4 +23,18 @@ public interface ClientUserMapper {
     boolean updateUser(User user);
 
     boolean modifyPassword(@Param("password") String password,@Param("id") String userId);
+
+    List<ClientCarVO> selectCarInformationForClient(ClientQueryCarVO vo);
+
+    Long getTotalSize();
+
+    int getUserIdForUsername(String username);
+
+    User getUserInfoForOrder(int userId);
+
+    Series getSeriesInfoForCarId(int carId);
+
+    boolean addOrder(Order order);
+
+    List<Order>
 }

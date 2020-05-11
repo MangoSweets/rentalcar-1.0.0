@@ -43,7 +43,6 @@ public class CarService {
     private SeriesMapper seriesMapper;
 
     public PageResult selectAll(PageRequest request) {
-
         int pageNum = request.getPageNum();
         int pageSize = request.getPageSize();
         PageHelper.startPage(pageNum, pageSize);
