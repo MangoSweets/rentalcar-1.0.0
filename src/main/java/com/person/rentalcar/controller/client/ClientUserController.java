@@ -7,10 +7,13 @@ import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.service.client.ClientUserService;
 import com.person.rentalcar.vo.query.ClientQueryCarVO;
+import com.person.rentalcar.vo.resp.MyOrder;
 import com.person.rentalcar.vo.resp.PageResult;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @describtion:
@@ -129,7 +132,13 @@ public class ClientUserController {
 
     @PostMapping("/addOrder")
     @RequiresAuthentication
-    public ApiResponse getOrder(@RequestBody Order order){
+    public ApiResponse getOrder(@RequestBody Order order) {
         return service.addOrder(order);
+    }
+
+    @GetMapping("/selectOrderForUserId")
+    @RequiresAuthentication
+    public ApiResponse<List<MyOrder>> selectOrderForUserId(int userId) {
+        return service.selectMyOrderForUserId(userId);
     }
 }

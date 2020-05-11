@@ -129,4 +129,19 @@
         insert into `Order`(userId,carId,startTime,endTime,`status`)
         values (#{userId} ,#{carId} ,#{startTime} ,#{endTime} ,#{status} )
     </insert>
+
+    <select id="selectMyOrderForUserId" parameterType="int" resultType="com.person.rentalcar.vo.resp.MyOrder">
+      SELECT
+        s.brand,
+        s.seriesname,
+        o.*
+      FROM
+        `order` AS o,
+        series AS s,
+        car AS c
+      WHERE
+        o.carId = c.carId
+        AND c.seriesId = s.seriesId
+        AND o.userId = #{userId,jdbcType=INTEGER}
+    </select>
 </mapper>

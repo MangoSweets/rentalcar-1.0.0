@@ -5,6 +5,7 @@ import com.person.rentalcar.model.Series;
 import com.person.rentalcar.model.User;
 import com.person.rentalcar.vo.query.ClientQueryCarVO;
 import com.person.rentalcar.vo.resp.ClientCarVO;
+import com.person.rentalcar.vo.resp.MyOrder;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,5 +37,5 @@ public interface ClientUserMapper {
 
     boolean addOrder(Order order);
 
-    List<Order>
+    List<MyOrder> selectMyOrderForUserId(int userId);
 }

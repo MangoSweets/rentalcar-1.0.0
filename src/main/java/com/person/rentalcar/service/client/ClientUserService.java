@@ -12,6 +12,7 @@ import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.ClientQueryCarVO;
 import com.person.rentalcar.vo.resp.ClientCarVO;
+import com.person.rentalcar.vo.resp.MyOrder;
 import com.person.rentalcar.vo.resp.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -106,10 +107,16 @@ public class ClientUserService {
     }
 
     public ApiResponse addOrder(Order order) {
+        order.setStatus(true);
         boolean b = mapper.addOrder(order);
         if (b) {
             return RespGenerator.successful();
         }
         return RespGenerator.fail(Constants.PARAM_ERROR.toString());
+    }
+
+    public ApiResponse<List<MyOrder>> selectMyOrderForUserId(int userId) {
+        List<MyOrder> orderList = mapper.selectMyOrderForUserId(userId);
+        return RespGenerator.successful(orderList);
     }
 }
