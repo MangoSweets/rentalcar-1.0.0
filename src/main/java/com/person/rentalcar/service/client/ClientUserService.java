@@ -19,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotBlank;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -79,13 +78,8 @@ public class ClientUserService {
         return PageUtils.getPageResult(new PageInfo<>(carList));
     }
 
-    public ApiResponse<Integer> getUserIdForUsername(@NotBlank String username) {
-        int id = mapper.getUserIdForUsername(username);
-        if (id == 0) {
-            log.error("{}该用户名信息错误，请检查", username);
-            return RespGenerator.fail(Constants.PARAM_ERROR.toString());
-        }
-        return RespGenerator.successful(id);
+    public Integer getUserIdForUsername(String username) {
+        return mapper.getUserIdForUsername(username);
     }
 
     public ApiResponse<User> getUserInfoForOrder(int userId) {
@@ -118,5 +112,23 @@ public class ClientUserService {
     public ApiResponse<List<MyOrder>> selectMyOrderForUserId(int userId) {
         List<MyOrder> orderList = mapper.selectMyOrderForUserId(userId);
         return RespGenerator.successful(orderList);
+    }
+
+    public boolean setRole(int userId,int roleId){
+        return mapper.setRole(userId, roleId);
+    }
+
+    public ApiResponse register(User user) {
+        Integer id = getUserIdForUsername(user.getUsername());
+        if(id!=null){
+            return RespGenerator.successful("EXIT");
+        }
+//        User u = mapper.usernameIsExited(user.getUsername());
+        boolean b = addUser(user);
+        if(b){
+            Integer nid = getUserIdForUsername(user.getUsername());
+            setRole(nid,3);
+        }
+        return RespGenerator.successful("SUCCESS");
     }
 }

@@ -81,8 +81,8 @@ permission-config:
       value: anon
     - key: /image/**
       value: anon
-#    - key: /webjars/**
-#      value: anon
+    - key: /client/register
+      value: anon
 #    - key: /druid/**
 #      value: anon
     - key: /**

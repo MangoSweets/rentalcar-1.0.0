@@ -70,7 +70,8 @@
 
     <insert id="addUser" parameterType="user">
         insert into user(userId,username,`password`,salt,`name`,sex,telephone,cardTypeSelect,IDCard,bankCard,drivingLicense,email,province,city,region,address,errorTipLinkman,linkManTele,roles,drivingBehalfID,userCreateTime,userCreater,userUpdateTime,userUpdater,userStatus)
-          values (#{userId},#{username},#{password},#{salt},#{name},#{sex},#{telephone},#{cardTypeSelect},#{IDCard},#{bankCard},#{drivingLicense},#{email},#{province},#{city},#{region},#{address},#{errorTipLinkman},#{linkManTele},#{roles},#{drivingBehalfID},#{userCreateTime},#{userCreater},#{userUpdateTime},#{userUpdater},#{userStatus})
+          values (#{userId},#{username},#{password},#{salt},#{name},#{sex},#{telephone},#{cardTypeSelect},#{IDCard},#{bankCard},#{drivingLicense},#{email},#{province},#{city},#{region},#{address},#{errorTipLinkman},#{linkManTele},#{roles},#{drivingBehalfID},#{userCreateTime},#{userCreater},#{userUpdateTime},#{userUpdater},#{userStatus});
+
     </insert>
 
     <update id="updateUser" parameterType="user">
@@ -113,7 +114,7 @@
         select count(1) from car
     </select>
 
-    <select id="getUserIdForUsername" parameterType="string" resultType="int">
+    <select id="getUserIdForUsername" parameterType="string" resultType="integer">
         select userId from user where username=#{username,jdbcType=VARCHAR}
     </select>
 
@@ -144,4 +145,12 @@
         AND c.seriesId = s.seriesId
         AND o.userId = #{userId,jdbcType=INTEGER}
     </select>
+
+    <select id="usernameIsExited" parameterType="string" resultType="user">
+        select * from user where username=#{username,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="setRole">
+        insert into user_role(userId,roleId) values(#{userId,jdbcType=INTEGER} ,#{roleId,jdbcType=INTEGER} )
+    </insert>
 </mapper>

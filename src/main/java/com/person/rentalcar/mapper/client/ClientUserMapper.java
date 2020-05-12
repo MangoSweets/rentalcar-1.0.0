@@ -29,7 +29,7 @@ public interface ClientUserMapper {
 
     Long getTotalSize();
 
-    int getUserIdForUsername(String username);
+    Integer getUserIdForUsername(String username);
 
     User getUserInfoForOrder(int userId);
 
@@ -38,4 +38,9 @@ public interface ClientUserMapper {
     boolean addOrder(Order order);
 
     List<MyOrder> selectMyOrderForUserId(int userId);
+
+    User usernameIsExited(String username);
+
+    boolean setRole(@Param("userId") int userId,@Param("roleId") int roleId);
+
 }

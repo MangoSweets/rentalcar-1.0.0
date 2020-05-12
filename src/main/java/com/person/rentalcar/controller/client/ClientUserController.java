@@ -1,5 +1,6 @@
 package com.person.rentalcar.controller.client;
 
+import com.person.rentalcar.constant.Constants;
 import com.person.rentalcar.model.Order;
 import com.person.rentalcar.model.Series;
 import com.person.rentalcar.model.User;
@@ -13,6 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -67,33 +69,6 @@ public class ClientUserController {
         }
     }
 
-//    @GetMapping("/user/changestatus")
-//    @RequiresAuthentication
-//    public ApiResponse changeStatus(Integer userId, boolean status) {
-//        boolean b = userService.changeStatus(userId, status);
-//        if (b) {
-//            return RespGenerator.successful("更新状态成功");
-//        } else {
-//            return RespGenerator.fail("400").setMessage("更新状态失败");
-//        }
-//    }
-
-//    @GetMapping("/user/getlikenames")
-//    @RequiresAuthentication
-//    public ApiResponse<List<User>> getLikeUsername(String username) {
-//        List<User> maps = userService.selectUserByUsername(username);
-//        if (CollectionUtils.isEmpty(maps)) {
-//            return RespGenerator.successful(Collections.EMPTY_LIST);
-//        }
-//        return RespGenerator.successful(maps);
-//    }
-
-//    @GetMapping("/user/getinformations")
-//    @RequiresAuthentication
-//    public ApiResponse<User> getInformations(String username) {
-//        return userService.getInformations(username);
-//    }
-
     @GetMapping("/user/queryPwdByUsername")
     @RequiresAuthentication
     public ApiResponse<User> getPwdByUsername(String username) {
@@ -114,8 +89,12 @@ public class ClientUserController {
 
     @GetMapping("/getUserId")
     @RequiresAuthentication
-    public ApiResponse<Integer> getUserIdForUsername(String username) {
-        return service.getUserIdForUsername(username);
+    public ApiResponse<Integer> getUserIdForUsername(@NotBlank String username) {
+        int id=service.getUserIdForUsername(username);
+        if (id == 0) {
+            return RespGenerator.fail(Constants.PARAM_ERROR.toString());
+        }
+        return RespGenerator.successful(id);
     }
 
     @GetMapping("/getOrderInfoForUser")
@@ -140,5 +119,10 @@ public class ClientUserController {
     @RequiresAuthentication
     public ApiResponse<List<MyOrder>> selectOrderForUserId(int userId) {
         return service.selectMyOrderForUserId(userId);
+    }
+
+    @PostMapping("/register")
+    public ApiResponse usernameIsExited(@RequestBody User user){
+        return service.register(user);
     }
 }
