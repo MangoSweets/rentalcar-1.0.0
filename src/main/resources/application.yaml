@@ -75,6 +75,8 @@ permission-config:
       value: anon
     - key: /login
       value: anon
+    - key: /manager/login
+      value: anon
     - key: /logout
       value: logout
     - key: /login.jsp
@@ -83,7 +85,7 @@ permission-config:
       value: anon
     - key: /client/register
       value: anon
-#    - key: /druid/**
-#      value: anon
+    #    - key: /druid/**
+    #      value: anon
     - key: /**
       value: jwt

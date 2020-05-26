@@ -13,7 +13,7 @@ public interface UserMapper {
 
     boolean updateUser(User user);
 
-    boolean updateUserStatus(@Param("userId") Integer userId,@Param("status") boolean status);
+    boolean updateUserStatus(@Param("userId") Integer userId, @Param("status") boolean status);
 
     List<User> selectUserByUsername(String username);
 
@@ -32,4 +32,10 @@ public interface UserMapper {
     User getInformation(String username);
 
     Role selectRoleByUserId(int UserId);
+
+    List<Role> selectAllRole();
+
+    boolean updateRole(@Param("userId") int userId, @Param("roleId") int roleId);
+
+    boolean addRoleForUser(@Param("userId") int userId, @Param("roleId") int roleId);
 }

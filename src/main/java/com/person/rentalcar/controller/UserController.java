@@ -1,5 +1,6 @@
 package com.person.rentalcar.controller;
 
+import com.person.rentalcar.model.Role;
 import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
@@ -96,5 +97,23 @@ public class UserController {
     @RequiresAuthentication
     public ApiResponse<User> getInformations(String username) {
         return userService.getInformations(username);
+    }
+
+    @GetMapping("/user/getMyRole")
+    @RequiresAuthentication
+    public ApiResponse<Role> selecMyRole(int userId){
+        return userService.selectMyRole(userId);
+    }
+
+    @GetMapping("/user/getRoleInfo")
+    @RequiresAuthentication
+    public ApiResponse<List<Role>> selectAllRole(){
+        return userService.selectAllRole();
+    }
+
+    @GetMapping("/user/updateRole")
+    @RequiresAuthentication
+    public ApiResponse updateRole(int userId,int roleId){
+        return userService.updateRole(userId,roleId);
     }
 }

@@ -129,4 +129,16 @@
     <select id="findByUserId" parameterType="int" resultType="user">
         select * from user where userId=#{userId,jdbcType=INTEGER}
     </select>
+
+    <select id="selectAllRole" resultType="role">
+        select * from role
+    </select>
+
+    <update id="updateRole">
+        update user_role set roleId =#{roleId,jdbcType=INTEGER} where userId =#{userId,jdbcType=INTEGER}
+    </update>
+
+    <insert id="addRoleForUser">
+        insert into user_role(userId, roleId) values (#{userId,jdbcType=INTEGER} ,#{roleId,jdbcType=INTEGER} )
+    </insert>
 </mapper>

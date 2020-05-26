@@ -146,11 +146,74 @@
         AND o.userId = #{userId,jdbcType=INTEGER}
     </select>
 
-    <select id="usernameIsExited" parameterType="string" resultType="user">
+    <select id="getUserForUsername" parameterType="string" resultType="user">
         select * from user where username=#{username,jdbcType=VARCHAR}
     </select>
 
     <insert id="setRole">
         insert into user_role(userId,roleId) values(#{userId,jdbcType=INTEGER} ,#{roleId,jdbcType=INTEGER} )
     </insert>
+
+    <select id="selectSharingOrder" parameterType="com.person.rentalcar.vo.query.QuerySharingOrderVO"
+            resultType="sharingorder">
+        SELECT
+        so.sharingoderId,u.name,u.sex,u.telephone,so.path,so.time,so.price
+        FROM
+        sharingorder AS so
+        LEFT JOIN drivingbehalf AS db ON so.drivingbehalfId = db.drivingBehalfId
+        LEFT JOIN `user` AS u ON db.userId = u.userId
+        WHERE
+        (so.userId IS NULL
+        OR so.userId = '')
+        AND so.`status` = TRUE
+        <if test="path != null and path != ''">
+            and so.path like CONCAT('%',#{path,jdbcType=VARCHAR} ,'%')
+        </if>
+        <if test="time != null and time != ''">
+            and so.time>=#{time,jdbcType=VARCHAR}
+        </if>
+        <if test="price != null and price != ''">
+            and so.price <![CDATA[ <= ]]> #{price,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <insert id="becomeDriveSharing" parameterType="int">
+        insert into drivingbehalf(userId) value (#{userId,jdbcType=INTEGER} )
+    </insert>
+
+    <select id="driveSharingExit" parameterType="int" resultType="drivingbehalf">
+        select * from drivingbehalf where userId=#{userId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="publishSharingOrderVO" parameterType="com.person.rentalcar.vo.query.PublishSharingOrderVO">
+        insert into sharingorder(drivingbehalfId,path,time,price,status) values(#{drivingbehalfId,jdbcType=INTEGER}  ,#{path,jdbcType=VARCHAR} ,#{time,jdbcType=VARCHAR} ,#{price,jdbcType=INTEGER} ,true)
+    </insert>
+
+    <select id="getDrivingBehalfId" parameterType="int" resultType="integer">
+        select drivingbehalfId from drivingbehalf where userId=#{userId,jdbcType=INTEGER}
+    </select>
+
+    <update id="orderSharingDriver">
+        update sharingorder set userId=#{userId,jdbcType=INTEGER} where sharingoderId=#{sharingoderId,jdbcType=INTEGER}
+        <if test="drivingBehalfId != null">
+            and drivingbehalfId !=#{drivingBehalfId,jdbcType=INTEGER}
+        </if>
+    </update>
+
+
+    <select id="selectMySharingOrder" parameterType="int" resultType="com.person.rentalcar.vo.resp.MySharingOrder">
+        SELECT
+            `user`.`name`,
+            `user`.sex,
+            `user`.telephone,
+            sharingorder.time,
+            sharingorder.path,
+            sharingorder.price,
+            sharingorder.`status`
+        FROM
+            sharingorder
+            LEFT JOIN `user` ON sharingorder.userId = `user`.userId
+        WHERE
+            sharingorder.drivingbehalfId = #{drivingBehalfId,jdbcType=INTEGER}
+    </select>
 </mapper>

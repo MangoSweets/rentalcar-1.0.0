@@ -100,4 +100,35 @@ public class UserService {
     }
 
 
+    public ApiResponse<Role> selectMyRole(int userId) {
+        if (userId == 0) {
+            return null;
+        }
+        Role role = userMapper.selectRoleByUserId(userId);
+        return RespGenerator.successful(role);
+    }
+
+    public ApiResponse<List<Role>> selectAllRole() {
+        List<Role> roleList = userMapper.selectAllRole();
+        return RespGenerator.successful(roleList);
+    }
+
+    public ApiResponse updateRole(int userId, int roleId) {
+        Role role = userMapper.selectRoleByUserId(userId);
+        if (role == null) {
+            boolean b = userMapper.addRoleForUser(userId, roleId);
+            if (b) {
+                return RespGenerator.successful();
+            } else {
+                return RespGenerator.fail("40000", "参数异常");
+            }
+        } else {
+            boolean b = userMapper.updateRole(userId, roleId);
+            if (b) {
+                return RespGenerator.successful();
+            } else {
+                return RespGenerator.fail("40000", "参数异常");
+            }
+        }
+    }
 }

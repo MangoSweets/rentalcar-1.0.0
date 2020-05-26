@@ -2,13 +2,16 @@ package com.person.rentalcar.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.person.rentalcar.constant.Constants;
 import com.person.rentalcar.mapper.DrivingBehalfMapper;
-import com.person.rentalcar.model.DrivingBehalf;
+import com.person.rentalcar.mapper.UserMapper;
+import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.PageRequest;
 import com.person.rentalcar.vo.resp.PageResult;
+import com.person.rentalcar.vo.resp.SharingDriverInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +27,29 @@ public class DriverService {
     @Autowired
     private DrivingBehalfMapper mapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     public ApiResponse<PageResult> selectALLDriver(PageRequest request) {
         PageHelper.startPage(request.getPageNum(), request.getPageSize());
-        List<DrivingBehalf> driverList = mapper.selectAllDrivingBehalf(request);
+        List<SharingDriverInfoVO> driverList = mapper.selectAllDrivingBehalf(request);
         return RespGenerator.successful(PageUtils.getPageResult(new PageInfo<>(driverList)));
     }
 
-    public ApiResponse addDriver(DrivingBehalf driver) {
-        boolean b = mapper.addDrivingBehalf(driver);
+    public ApiResponse addDriver(String username) {
+        User user = userMapper.findByUsername(username);
+        if (user == null) {
+            return RespGenerator.fail(Constants.PARAM_ERROR.toString(), "用户名不存在");
+        }
+        boolean have = mapper.IsDrivingBehalf(username);
+        if (have == true) {
+            return RespGenerator.fail(Constants.PARAM_ERROR.toString(), "该用户已经是代驾，不能添加");
+        }
+        boolean b = mapper.addDrivingBehalf(user.getUserId());
         if (b) {
             return RespGenerator.successful().setMessage("添加成功");
         } else {
-            return RespGenerator.fail("400").setMessage("添加失败，请检查参数");
+            return RespGenerator.fail("50000","系统异常，请联系管理员");
         }
     }
 
@@ -48,21 +62,6 @@ public class DriverService {
         }
     }
 
-    public ApiResponse updateDriver(DrivingBehalf driver) {
-        boolean b = mapper.updateDrivingBehalf(driver);
-        if (b) {
-            return RespGenerator.successful("更新成功");
-        } else {
-            return RespGenerator.fail("400").setMessage("更新失败");
-        }
-    }
 
-    public ApiResponse changeStatus(Integer driverId, boolean status) {
-        boolean b = mapper.changeStatus(driverId, status);
-        if (b) {
-            return RespGenerator.successful("更新状态成功");
-        } else {
-            return RespGenerator.fail("400").setMessage("更新状态失败");
-        }
-    }
+
 }

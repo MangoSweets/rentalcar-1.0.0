@@ -118,17 +118,17 @@ public class TestController {
     @Autowired
     private DrivingBehalfMapper drivingBehalfMapper;
 
-    @RequestMapping("/test/drivingBehalfMapper/add")
-    public void adddrivingBehalfMapper() {
-        drivingBehalfMapper.addDrivingBehalf(new DrivingBehalf().setDrivingStatus(true).setDrivingName("admin").setBehalfLicense("123456"));
-        System.out.println("添加成功");
-    }
-
-    @RequestMapping("/test/drivingBehalfMapper/update")
-    public void updatedrivingBehalfMapper() {
-        drivingBehalfMapper.updateDrivingBehalf(new DrivingBehalf().setDrivingBehalfId(1).setBehalfLicense("666666"));
-        System.out.println("更新成功");
-    }
+//    @RequestMapping("/test/drivingBehalfMapper/add")
+//    public void adddrivingBehalfMapper() {
+//        drivingBehalfMapper.addDrivingBehalf(new DrivingBehalf().setDrivingStatus(true).setDrivingName("admin").setBehalfLicense("123456"));
+//        System.out.println("添加成功");
+//    }
+//
+//    @RequestMapping("/test/drivingBehalfMapper/update")
+//    public void updatedrivingBehalfMapper() {
+//        drivingBehalfMapper.updateDrivingBehalf(new DrivingBehalf().setDrivingBehalfId(1).setBehalfLicense("666666"));
+//        System.out.println("更新成功");
+//    }
 
     @RequestMapping("/test/drivingBehalfMapper/selectuser")
     public void selectdrivingBehalfMapper() {

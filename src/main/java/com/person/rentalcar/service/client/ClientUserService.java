@@ -4,24 +4,29 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.person.rentalcar.constant.Constants;
 import com.person.rentalcar.mapper.client.ClientUserMapper;
-import com.person.rentalcar.model.Order;
-import com.person.rentalcar.model.Series;
-import com.person.rentalcar.model.User;
+import com.person.rentalcar.model.*;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
 import com.person.rentalcar.utils.pagehelper.PageUtils;
 import com.person.rentalcar.vo.query.ClientQueryCarVO;
+import com.person.rentalcar.vo.query.PublishSharingOrderVO;
+import com.person.rentalcar.vo.query.QuerySharingOrderVO;
 import com.person.rentalcar.vo.resp.ClientCarVO;
 import com.person.rentalcar.vo.resp.MyOrder;
+import com.person.rentalcar.vo.resp.MySharingOrder;
 import com.person.rentalcar.vo.resp.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @describtion:
@@ -114,21 +119,95 @@ public class ClientUserService {
         return RespGenerator.successful(orderList);
     }
 
-    public boolean setRole(int userId,int roleId){
+    public boolean setRole(int userId, int roleId) {
         return mapper.setRole(userId, roleId);
     }
 
     public ApiResponse register(User user) {
         Integer id = getUserIdForUsername(user.getUsername());
-        if(id!=null){
+        if (id != null) {
             return RespGenerator.successful("EXIT");
         }
 //        User u = mapper.usernameIsExited(user.getUsername());
         boolean b = addUser(user);
-        if(b){
+        if (b) {
             Integer nid = getUserIdForUsername(user.getUsername());
-            setRole(nid,3);
+            setRole(nid, 3);
         }
         return RespGenerator.successful("SUCCESS");
+    }
+
+    public PageResult selectSharingOrder(QuerySharingOrderVO vo) {
+        int pageNum = vo.getPageNum();
+        int pageSize = vo.getPageSize();
+        PageHelper.startPage(pageNum, pageSize);
+        List<SharingOrder> sharingOrders = mapper.selectSharingOrder(vo);
+        return PageUtils.getPageResult(new PageInfo<>(sharingOrders));
+    }
+
+    public ApiResponse becomeDriveSharing(int userId) {
+        boolean b = mapper.becomeDriveSharing(userId);
+        if (b) {
+            return RespGenerator.successful();
+        } else {
+            return RespGenerator.fail(Constants.PARAM_ERROR.toString());
+        }
+    }
+
+    public ApiResponse<User> getUserInfoForUsername(String username) {
+        User user = mapper.getUserForUsername(username);
+        if (user == null) {
+            return RespGenerator.fail(Constants.PARAM_ERROR.toString());
+        }
+        return RespGenerator.successful(user);
+    }
+
+    public ApiResponse<Boolean> driveSharingExit(int userId) {
+        List<DrivingBehalf> drivingBehalves = mapper.driveSharingExit(userId);
+        if (CollectionUtils.isEmpty(drivingBehalves)) {
+            return RespGenerator.successful(false);
+        } else {
+            return RespGenerator.successful(true);
+        }
+    }
+
+    public ApiResponse publishSharingOrderVO(PublishSharingOrderVO vo) throws ParseException {
+        String time = vo.getTime();
+        time = time.replace("Z", " UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+        Date date = df.parse(time);
+        SimpleDateFormat df1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+        Date date1 = df1.parse(date.toString());
+        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String newTime = df2.format(date1);
+        vo.setTime(newTime);
+        boolean b = mapper.publishSharingOrderVO(vo);
+        if (b) {
+            return RespGenerator.successful();
+        } else {
+            return RespGenerator.fail("50000", "系统出错,发布失败");
+        }
+    }
+
+    public ApiResponse<Integer> getDrivingBehalfId(int userId) {
+        Integer i = mapper.getDrivingBehalfId(userId);
+        if (i == null) {
+            return RespGenerator.fail(Constants.PARAM_ERROR.toString());
+        }
+        return RespGenerator.successful(i);
+    }
+
+    public ApiResponse orderSharingDriver(int sharingoderId, int userId) {
+        Integer drivingBehalfId = mapper.getDrivingBehalfId(userId);
+        boolean b = mapper.orderSharingDriver(sharingoderId, userId, drivingBehalfId);
+        if (b) {
+            return RespGenerator.successful();
+        }
+        return RespGenerator.fail(Constants.PARAM_ERROR.toString());
+    }
+
+    public ApiResponse<List<MySharingOrder>> selectMySharingOrder(int drivingBehalfId) {
+        List<MySharingOrder> mySharingOrders = mapper.selectMySharingOrder(drivingBehalfId);
+        return RespGenerator.successful(mySharingOrders);
     }
 }

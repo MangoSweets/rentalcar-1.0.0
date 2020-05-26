@@ -4,9 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.person.rentalcar.mapper.DrivingBehalfMapper">
 
-    <insert id="addDrivingBehalf" parameterType="drivingbehalf">
-        insert into DrivingBehalf(drivingName,drivingSex,drivingTelephone,creditscore,drivingComment,behalfLicense,drivingCreater,drivingCreateTime,drivingUpdater,drivingUpdateTime,drivingStatus)
-        values (#{drivingName} ,#{drivingSex} ,#{drivingTelephone} ,#{creditscore} ,#{drivingComment} ,#{behalfLicense} ,#{drivingCreater} ,#{drivingCreateTime},#{drivingUpdater} ,#{drivingUpdateTime} ,#{drivingStatus} )
+    <insert id="addDrivingBehalf" parameterType="int">
+      insert  into drivingbehalf(userId) value (#{userId,jdbcType=INTEGER} )
     </insert>
 
     <sql id="drivingBehalfUpdate">
@@ -37,19 +36,25 @@
         where drivingBehalfId=#{drivingBehalfId}
     </sql>
 
-    <update id="updateDrivingBehalf" parameterType="drivingbehalf">
-        update
-        <include refid="tablename"/>
-        <include refid="drivingBehalfUpdate"/>
-        <include refid="personConfition"/>
-    </update>
+    <select id="IsDrivingBehalf" parameterType="string" resultType="boolean">
+        select COUNT(1) from drivingbehalf where userId in (select userId from `user` where username=#{username,jdbcType=VARCHAR} )
+    </select>
 
-    <select id="selectAllDrivingBehalf" resultType="drivingbehalf"
+    <select id="selectAllDrivingBehalf" resultType="com.person.rentalcar.vo.resp.SharingDriverInfoVO"
             parameterType="com.person.rentalcar.vo.query.PageRequest">
-        select * from
-        <include refid="tablename"/>
+        SELECT
+        dr.drivingBehalfId,
+        u.`name`,
+        u.sex,
+        u.telephone,
+        u.email
+        FROM
+        `user` u,
+        drivingbehalf dr
+        WHERE
+        u.userId = dr.userId
         <if test="query != null and query != ''">
-            where drivingName like concat('%',#{query,jdbcType=VARCHAR} ,'%')
+            and u.`name` like concat('%',#{query,jdbcType=VARCHAR} ,'%')
         </if>
     </select>
 
@@ -65,9 +70,5 @@
         <include refid="personConfition"/>
     </select>
 
-    <update id="changeStatus">
-        update
-        <include refid="tablename"/>
-        set drivingStatus=#{status,jdbcType=BOOLEAN} where drivingBehalfId=#{driverId,jdbcType=INTEGER}
-    </update>
+
 </mapper>

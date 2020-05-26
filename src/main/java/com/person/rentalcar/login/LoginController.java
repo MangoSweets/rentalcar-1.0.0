@@ -3,6 +3,7 @@ package com.person.rentalcar.login;
 import com.alibaba.fastjson.JSONObject;
 import com.person.rentalcar.constant.Constants;
 import com.person.rentalcar.constant.SecurityConsts;
+import com.person.rentalcar.model.Role;
 import com.person.rentalcar.model.User;
 import com.person.rentalcar.response.ApiResponse;
 import com.person.rentalcar.response.RespGenerator;
@@ -48,12 +49,8 @@ public class LoginController {
     private JedisUtils jedisUtils;
 
 
-//    @Value("${jwt.ext}")
-//    private long exp =604800000;
-
-    @PostMapping(value = "/login")
-//    @LoginToken
-    public ApiResponse login(@RequestBody User user,HttpServletResponse response) {
+    @PostMapping(value = "/manager/login")
+    public ApiResponse login(@RequestBody User user, HttpServletResponse response) {
         User u = userService.findByUsername(user.getUsername());
         if (u == null) {
             log.error("用户不存在");
@@ -63,61 +60,55 @@ public class LoginController {
             log.error("密码错误");
             return RespGenerator.fail("200002", "密码错误");
         }
-        String strToken= this.loginSuccess(u.getUsername(), response);
+        if (u.isUserStatus() == false) {
+            log.error("用户被冻结");
+            return RespGenerator.fail("200003", "用户被冻结");
+        }
+        Role role = userService.selectRoleByUserId(u.getUserId());
+        if (role == null) {
+            log.error("用户角色信息异常");
+            userService.changeStatus(u.getUserId(), false);
+            return RespGenerator.fail("10000", "用户信息异常，已被冻结");
+        }
+        if (!"Administrator".equals(role.getRoleIdentity())) {
+            log.error("用户权限不足");
+            return RespGenerator.fail("200003", "用户权限不足");
+        }
+        String strToken = this.loginSuccess(u.getUsername(), response);
 //        System.out.println("token:" + token);
 //        log.info("登录成功");
         Subject subject = SecurityUtils.getSubject();
-        AuthenticationToken token= new JwtToken(strToken);
+        AuthenticationToken token = new JwtToken(strToken);
         subject.login(token);
         log.info("登录成功");
         return RespGenerator.successful(Constants.TOKEN_CHECK_SUCCESS);
 
     }
 
-//    @PostMapping("/login")
-//    public ApiResponse login(@RequestBody User user) {
-//        Subject subject = SecurityUtils.getSubject();
-//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(user.getUsername(), user.getPassword());
-//        try {
-//            System.out.println(user);
-//            subject.login(usernamePasswordToken);
-////            Serializable token = subject.getSession().getId();
-//            User user1 = userService.findByUsername(user.getUsername());
-//            Role role = userService.selectRoleByUserId(user1.getUserId());
-//            List<Permission> permissions = roleService.selectPermissionByRole(role.getRoleId());
-//            Map map=new HashMap();
-//            map.put("user", user1);
-//            map.put("role", role);
-//            map.put("permission", permissions);
-//            log.info("登录成功！");
-//            return RespGenerator.successful(map);
-//        } catch (IncorrectCredentialsException e) {
-//            log.error("密码错误");
-//            return RespGenerator.fail("400").setMessage("密码错误");
-//        } catch (LockedAccountException e) {
-//            log.error("该账户被冻结");
-//            return RespGenerator.fail("400").setMessage("该账户被冻结");
-//        } catch (UnknownAccountException e) {
-//            log.error("该用户不存在");
-//            return RespGenerator.fail("400").setMessage("用户不存在");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return RespGenerator.fail("500");
-//    }
+    @PostMapping(value = "/login")
+    public ApiResponse clientLogin(@RequestBody User user, HttpServletResponse response) {
+        User u = userService.findByUsername(user.getUsername());
+        if (u == null) {
+            log.error("用户不存在");
+            return RespGenerator.fail("200001", "用户不存在");
+        }
+        if (!u.getPassword().equals(user.getPassword())) {
+            log.error("密码错误");
+            return RespGenerator.fail("200002", "密码错误");
+        }
+        if (u.isUserStatus() == false) {
+            log.error("用户被冻结");
+            return RespGenerator.fail("200003", "用户被冻结");
+        }
+        String strToken = this.loginSuccess(u.getUsername(), response);
+        Subject subject = SecurityUtils.getSubject();
+        AuthenticationToken token = new JwtToken(strToken);
+        subject.login(token);
+        log.info("登录成功");
+        return RespGenerator.successful(Constants.TOKEN_CHECK_SUCCESS);
 
-
-    @PostMapping(value = "/api/register")
-//    public ApiResponse<String> register(@RequestBody User user) {
-//        return userService.register(user);
-//    }
-
-    @GetMapping("/api/logout")
-    public ApiResponse<String> logout() {
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.logout();
-        return RespGenerator.successful("成功退出登录状态");
     }
+
 
     @GetMapping(value = "api/authentication")
     public String authentication() {
@@ -141,8 +132,8 @@ public class LoginController {
         json.put("token", token);
 
         //更新RefreshToken缓存的时间戳
-        String refreshTokenKey= SecurityConsts.PREFIX_SHIRO_REFRESH_TOKEN + account;
-        jedisUtils.saveString(refreshTokenKey, currentTimeMillis, jwtProperties.getTokenExpireTime()*60);
+        String refreshTokenKey = SecurityConsts.PREFIX_SHIRO_REFRESH_TOKEN + account;
+        jedisUtils.saveString(refreshTokenKey, currentTimeMillis, jwtProperties.getTokenExpireTime() * 60);
 
 
         //写入header

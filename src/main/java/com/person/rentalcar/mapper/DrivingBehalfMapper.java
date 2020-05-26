@@ -2,7 +2,7 @@ package com.person.rentalcar.mapper;
 
 import com.person.rentalcar.model.DrivingBehalf;
 import com.person.rentalcar.vo.query.PageRequest;
-import org.apache.ibatis.annotations.Param;
+import com.person.rentalcar.vo.resp.SharingDriverInfoVO;
 
 import java.util.List;
 
@@ -14,15 +14,13 @@ import java.util.List;
  */
 public interface DrivingBehalfMapper {
 
-    boolean addDrivingBehalf(DrivingBehalf drivingBehalf);
+    boolean addDrivingBehalf(int userId);
 
-    boolean updateDrivingBehalf(DrivingBehalf drivingBehalf);
+    boolean IsDrivingBehalf(String username);
 
     boolean deleteDrivingBehalf(int drivingBehalfId);
 
     DrivingBehalf selectDrivingBehalfByDrivingBehalfId(int drivingBehalfId);
 
-    List<DrivingBehalf> selectAllDrivingBehalf(PageRequest request);
-
-    boolean changeStatus(@Param("driverId") Integer driverId,@Param("status") boolean status);
+    List<SharingDriverInfoVO > selectAllDrivingBehalf(PageRequest request);
 }
