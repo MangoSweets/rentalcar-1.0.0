@@ -54,7 +54,7 @@ public interface ClientUserMapper {
 
     Integer getDrivingBehalfId(int userId);
 
-    boolean orderSharingDriver(@Param("sharingoderId") int sharingoderId, @Param("userId") int userId, @Param("drivingBehalfId") int drivingBehalfId);
+    boolean orderSharingDriver(@Param("sharingoderId") int sharingoderId, @Param("userId") int userId);
 
     List<MySharingOrder> selectMySharingOrder(int drivingBehalfId);
 

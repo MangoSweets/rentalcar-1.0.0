@@ -10,8 +10,8 @@
 //    /**
 //     * 这个需要替换自己的AK(在阿里云的Accesskey管理中寻找)
 //     */
-//    public static String accessKeyId = "LTAI4GH6jibrkjyZTy18gNrh";
-//    public static String  accessSecret = "lXAZ1Lrupm4eoV6PASywZQLJuqOFjn";
+//    public static String accessKeyId = "ak";
+//    public static String  accessSecret = "ak";
 //
 //    /**
 //     * 签名名称（需要替换以及只有审核后才能使用）在阿里云控制台中找到签名管理中的签名名称

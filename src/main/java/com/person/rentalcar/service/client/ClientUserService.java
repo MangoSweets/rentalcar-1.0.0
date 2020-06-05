@@ -199,7 +199,7 @@ public class ClientUserService {
 
     public ApiResponse orderSharingDriver(int sharingoderId, int userId) {
         Integer drivingBehalfId = mapper.getDrivingBehalfId(userId);
-        boolean b = mapper.orderSharingDriver(sharingoderId, userId, drivingBehalfId);
+        boolean b = mapper.orderSharingDriver(sharingoderId, userId);
         if (b) {
             return RespGenerator.successful();
         }
